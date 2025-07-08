@@ -1,1 +1,62 @@
-
+{
+  "courses": [
+    {
+      "name": "Space Debris: Is it a Crisis?",
+      "description": "The European Space Agency’s short documentary film ‘Space Debris: Is it a Crisis?’ on the state of space debris premiered at the 9th European Conference on Space Debris on 1 Apr 2025.",
+      "link": "https://youtu.be/yIsPbysinKw?si=TNmHqRx-gN8WmNLg",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "author": "European Space Agency",
+      "uploadDate": "2025-04-01",
+      "duration": "8:07",
+      "tags": ["Educational"]
+    },
+    {
+      "name": "End of Space – Creating a Prison for Humanity",
+      "description": "Space travel is the most exciting adventure for humanity, but in an irony of history we may stop ourselves from going into space the more we do it. With every rocket launched we are creating a deadly trap for mankind.",
+      "link": "https://youtu.be/yS1ibDImAYU?si=lLjoRmAaFQzJkk2R",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "author": "Kurzgesagt",
+      "uploadDate": "2018-11-25",
+      "duration": "7:35",
+      "tags": ["Educational"]
+    },
+    {
+      "name": "Saving Space: The Fight Against Orbital Trash",
+      "description": "Orbital debris is the stuff of nightmares for astronauts. And with good reason – the amount of rubbish circling the Earth has risen exponentially over the last twenty years as space exploration has grown and increasing numbers of satellites are launched.",
+      "link": "https://youtu.be/lpufQpUaExQ?si=9vmTAr9wrU_gTgid",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "author": "SLICE Earth",
+      "uploadDate": "2025-11-16",
+      "duration": "53:51",
+      "tags": ["Educational"]
+    },
+    {
+      "name": "The Sky is Falling - A lesson on Space Junk with former NASA Engineer, Linda Dawson",
+      "description": "Hundreds of satellites and rockets launched into space are left as space junk once they no longer work. An estimated millions of pieces of debris currently orbit the Earth, traveling fast enough to damage or destroy a spacecraft or satellite that happens to be in its path. These objects remain in orbit until gravity pulls them back to Earth, potentially remaining in space for decades.",
+      "link": "https://youtu.be/7gDv9PowH64?si=NzogTdsMwaCQ64nB",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "author": "The Museum of Flight",
+      "uploadDate": "2024-11-07",
+      "duration": "44:18",
+      "tags": ["Educational"]
+    },
+    {
+      "name": "Test Course Name",
+      "description": "Test course description.",
+      "link": "#",
+      "type": "course",
+      "free": true,
+      "price": null,
+      "author": "Test",
+      "tags": ["Beginner", "Space", "Debris"]
+    }
+  ]
+}
