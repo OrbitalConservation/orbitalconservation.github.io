@@ -49,14 +49,14 @@
       "tags": ["Educational"]
     },
     {
-      "name": "Test Course Name",
-      "description": "Test course description.",
-      "link": "#",
+      "name": "Space Safety",
+      "description": "How can we prevent satellites from colliding? How can satellites be protected from meteorite impacts? How important are satellites in today’s age? How safe are astronauts on the ISS and why does their research help mankind in general? What happens with space debris distributed in orbit?\n\nIn the online course “Space Safety”, the astronaut Dr Thomas Reiter, experts from the European Space Agency (ESA) and other research institutions address the subject matter, presenting possible future scenarios for space applications.\n\nThe individual course units cover an array of topics, such as space weather, space debris, collision avoidance, cyber security and space medicine.",
+      "link": "https://www.coursera.org/learn/spacesafety",
       "type": "course",
-      "free": true,
-      "price": null,
-      "author": "Test",
-      "tags": ["Beginner", "Space", "Debris"]
+      "free": false,
+      "price": 58,
+      "author": "Technical University of Munich",
+      "tags": ["Physics", "Safety", "Space", "Risk Management"]
     }
   ]
 }
