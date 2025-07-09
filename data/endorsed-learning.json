@@ -54,7 +54,7 @@
       "link": "https://www.coursera.org/learn/spacesafety",
       "type": "course",
       "free": false,
-      "price": 58,
+      "price": "£58.00",
       "author": "Technical University of Munich",
       "tags": ["Physics", "Safety", "Space", "Risk Management"]
     }
