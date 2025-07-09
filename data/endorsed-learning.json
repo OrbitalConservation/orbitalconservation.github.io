@@ -57,6 +57,16 @@
       "price": "£58.00",
       "author": "Technical University of Munich",
       "tags": ["Intermediate", "Physics", "Safety", "Space", "Risk Management"]
+    },
+    {
+      "name": "Rocket Science for Everyone",
+      "description": "This course is an intuitive introduction to rocket science in our everyday lives. Modern life increasingly depends on technology provided by Earth-orbiting satellites, from detailed weather predictions to broad-band internet and GPS. How are satellites launched into orbit and how do they work once they get there? Why are rockets used to get into orbit and how are they different from airplanes? This introductory course is aimed at a wide non-technical audience and is appropriate for all ages.",
+      "link": "https://www.coursera.org/learn/rocket-science-for-everyone",
+      "type": "course",
+      "free": false,
+      "price": "£36.00",
+      "author": "Yale University",
+      "tags": ["Beginner", "Physics", "Mechanics", "Spacial Analysis", "Engineering"]
     }
   ]
 }
