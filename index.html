@@ -568,7 +568,7 @@
               position: relative;
               width: 100%;
               height: 0;
-              padding-bottom: 56.25%; /* 16:9 aspect ratio */
+              padding-bottom: 56.25%;
           }
   
           .video-iframe-container iframe {
@@ -634,10 +634,8 @@
               line-height: 1.8;
           }        .modal-body p {
             margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
+            line-height: 1.8;          }
 
-        /* Citations Section */
         .citations-section {
             border-top: 2px solid var(--border-light);
             margin-top: 3rem;
@@ -1269,7 +1267,6 @@
       
       <main class="main">
           
-          <!-- Home Page -->
           <section id="home" class="content-section active">
               <div class="hero" style="background: linear-gradient(135deg, rgba(13, 110, 253, 0.95), rgba(108, 117, 125, 0.9)), url('https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover; min-height: 85vh; display: flex; align-items: center; position: relative;">
                   <div class="hero-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.3);"></div>
@@ -1380,7 +1377,6 @@
               </div>
           </section>
   
-          <!-- About Page -->
           <section id="about" class="content-section">
               <h2 class="section-title">Understanding Space Sustainability</h2>
               <p class="section-subtitle">Learn about the challenges of space debris, orbital mechanics, and why space sustainability matters for our future.</p>
@@ -1533,7 +1529,6 @@
               </div>
           </section>
           
-          <!-- Articles Page -->
           <section id="articles" class="content-section">
               <h2 class="section-title">Articles</h2>
               <p class="section-subtitle">Stay updated with our latest research findings, policy developments, and insights into space sustainability.</p>
@@ -1553,7 +1548,6 @@
               <div id="blogGrid" class="blog-grid"></div>
           </section>
           
-          <!-- Insight Page -->
           <section id="insight" class="content-section learning-section">
               <h2 class="section-title">Insight</h2>
               <p class="section-subtitle">Explore OCI-endorsed online courses and learning resources for space sustainability, orbital science, and responsible space operations.</p>
@@ -1567,7 +1561,6 @@
               <div id="learningGrid" class="blog-grid"></div>
           </section>
           
-          <!-- Team Page -->
           <section id="team" class="content-section">
               <h2 class="section-title">Our Team</h2>
               <p class="section-subtitle">Leading the charge in orbital conservation through passion, expertise, and collaboration.</p>
@@ -1658,7 +1651,6 @@
               </div>
           </section>
           
-          <!-- Contact Page -->
           <section id="contact" class="content-section">
               <h2 class="section-title">Contact Us</h2>
               <p class="section-subtitle">Ready to collaborate on space sustainability? We'd love to hear from you.</p>
@@ -1822,7 +1814,6 @@
           </section>
       </main>
   
-      <!-- Start Modals -->
       <div id="blogModal" class="modal">
           <div class="modal-content">
               <button class="modal-close" id="modalClose">×</button>
@@ -1859,8 +1850,7 @@
               <div class="course-actions" id="courseModalActions"></div>
           </div>
       </div>
-      <!-- End Modals -->
-  
+      
       <footer class="footer">
           <div class="footer-content">
               <div class="footer-section">
@@ -1902,16 +1892,17 @@
               templateId: 'template_u28djvs'
           };
   
-          document.addEventListener('DOMContentLoaded', function() {
+          document.addEventListener('DOMContentLoaded', async function() {
               if (typeof emailjs !== 'undefined') {
                   emailjs.init(EMAILJS_CONFIG.publicKey);
               }
               
               initializeApp();
-              loadBlogPosts();
-              loadLearningCourses();
               setupEventListeners();
               animateStats();
+              
+              await loadBlogPosts();
+              loadLearningCourses();
               handleInitialRoute();
           });
   
@@ -2007,23 +1998,49 @@
   
           function setupRouting() {
               window.addEventListener('hashchange', handleRouteChange);
-              window.addEventListener('load', handleRouteChange);
           }
   
           function handleInitialRoute() {
-              const hash = window.location.hash.slice(1) || 'home';
-              showSection(hash);
-              updateActiveSection(hash);
+              handleRouteChange();
           }
   
           function handleRouteChange() {
               const hash = window.location.hash.slice(1) || 'home';
-              console.log('Navigating to section:', hash);
-              showSection(hash);
-              updateActiveSection(hash);
-              if (hash === 'insight') {
-                  console.log('Loading learning courses...');
-                  loadLearningCourses();
+              
+              if (hash.startsWith('articles/')) {
+                  const articleSlug = hash.split('/')[1];
+                  showSection('articles');
+                  updateActiveSection('articles');
+                  
+                  const openArticleWhenReady = () => {
+                      if (blogPosts && blogPosts.length > 0) {
+                          setTimeout(() => {
+                              openBlogModalBySlug(articleSlug);
+                          }, 100);
+                      } else {
+                          const checkArticles = setInterval(() => {
+                              if (blogPosts && blogPosts.length > 0) {
+                                  clearInterval(checkArticles);
+                                  setTimeout(() => {
+                                      openBlogModalBySlug(articleSlug);
+                                  }, 50);
+                              }
+                          }, 100);
+                          
+                          setTimeout(() => {
+                              clearInterval(checkArticles);
+                              console.warn('Timeout waiting for articles to load');
+                          }, 10000);
+                      }
+                  };
+                  
+                  openArticleWhenReady();
+              } else {
+                  showSection(hash);
+                  updateActiveSection(hash);
+                  if (hash === 'insight') {
+                      loadLearningCourses();
+                  }
               }
           }
   
@@ -2095,26 +2112,24 @@
               window.addEventListener('hashchange', function() {
                   document.getElementById('nav').classList.remove('open');
               });
-          }
-  
-          function showSection(sectionName) {
+          }          function showSection(sectionName) {
               const validSections = ['home', 'about', 'articles', 'insight', 'team', 'contact'];
               if (!validSections.includes(sectionName)) {
                   sectionName = 'home';
                   window.location.hash = 'home';
               }
-  
+
               document.querySelectorAll('.content-section').forEach(section => {
                   section.classList.remove('active');
               });
-  
+
               const targetSection = document.getElementById(sectionName);
               if (targetSection) {
                   targetSection.classList.add('active');
               }
-  
+
               updatePageTitle(sectionName);
-  
+
               window.scrollTo(0, 0);
           }
   
@@ -2164,25 +2179,28 @@
                   return;
               }
   
-              blogGrid.innerHTML = filteredPosts.map(post => `
-                  <article class="blog-card ${post.featured ? 'featured' : ''}" onclick="openBlogModal('${post.id}')">
-                      <div class="blog-card-header">
-                          <div class="blog-meta">
-                              <span>By ${post.author}</span>
-                              <span>${formatDate(post.publishDate)}</span>
-                              <span class="read-time">${post.readTime} min read</span>
+              blogGrid.innerHTML = filteredPosts.map(post => {
+                  const slug = post.slug || post.id;
+                  return `
+                      <article class="blog-card ${post.featured ? 'featured' : ''}" onclick="openBlogModalBySlug('${slug}')">
+                          <div class="blog-card-header">
+                              <div class="blog-meta">
+                                  <span>By ${post.author}</span>
+                                  <span>${formatDate(post.publishDate)}</span>
+                                  <span class="read-time">${post.readTime} min read</span>
+                              </div>
+                              <h3 class="blog-title">${post.title}</h3>
+                              <p class="blog-excerpt">${post.excerpt}</p>
                           </div>
-                          <h3 class="blog-title">${post.title}</h3>
-                          <p class="blog-excerpt">${post.excerpt}</p>
-                      </div>
-                      <div class="blog-card-footer">
-                          <div class="blog-tags">
-                              ${post.tags.slice(0, 2).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                          <div class="blog-card-footer">
+                              <div class="blog-tags">
+                                  ${post.tags.slice(0, 2).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                              </div>
+                              <div class="read-time">${post.category}</div>
                           </div>
-                          <div class="read-time">${post.category}</div>
-                      </div>
-                  </article>
-              `).join('');
+                      </article>
+                  `;
+              }).join('');
           }
   
           function filterBlogPosts(category) {
@@ -2200,22 +2218,72 @@
                   btn.classList.remove('active');
               });
               activeBtn.classList.add('active');
-          }          function openBlogModal(postId) {
-              const post = blogPosts.find(p => p.id === postId);
-              if (!post) return;
+          }          function openBlogModalBySlug(slug) {
+              const decodedSlug = decodeURIComponent(slug);
+              
+              let post = blogPosts.find(p => p.slug === decodedSlug);
+              if (!post) {
+                  post = blogPosts.find(p => p.id === decodedSlug);
+              }
+              
+              if (!post) {
+                  console.warn('Article not found with slug or id:', decodedSlug);
+                  window.history.replaceState(null, null, '#articles');
+                  return;
+              }
 
-              document.getElementById('modalTitle').textContent = post.title;
-              document.getElementById('modalMeta').innerHTML = `
+              const actualSlug = post.slug || post.id;
+              const currentHash = window.location.hash;
+              const newHash = `#articles/${actualSlug}`;
+              if (currentHash !== newHash) {
+                  window.history.replaceState(null, null, newHash);
+              }
+
+              displayArticleModal(post);
+          }
+
+          function displayArticleModal(post) {
+              const modalTitle = document.getElementById('modalTitle');
+              const modalMeta = document.getElementById('modalMeta');
+              const modalBody = document.getElementById('modalBody');
+              const blogModal = document.getElementById('blogModal');
+              
+              if (!modalTitle || !modalMeta || !modalBody || !blogModal) {
+                  console.error('Modal elements not found in DOM');
+                  return;
+              }
+              
+              modalTitle.textContent = post.title;
+              modalMeta.innerHTML = `
                   <span><strong>Author:</strong> ${post.author} (${post.authorRole})</span>
                   <span><strong>Published:</strong> ${formatDate(post.publishDate)}</span>
                   <span><strong>Category:</strong> ${post.category}</span>
                   <span><strong>Read Time:</strong> ${post.readTime} minutes</span>
               `;
               
-              // Main content
               let modalContent = post.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
               
-              // Add citations section if available
+              const shareSlug = post.slug || post.id;
+              modalContent += `
+                  <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius); margin: 2rem 0; border-left: 4px solid var(--accent-color);">
+                      <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                          <i class="fas fa-share-alt"></i> Share this Article
+                      </h4>
+                      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                          <button onclick="copyArticleLink('${shareSlug}')" class="btn btn-primary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem;">
+                              <i class="fas fa-copy"></i> Copy Link
+                          </button>
+                          <button onclick="shareOnTwitter('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #1da1f2; color: white; border: none;">
+                              <i class="fab fa-twitter"></i> Twitter
+                          </button>
+                          <button onclick="shareOnLinkedIn('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #0077b5; color: white; border: none;">
+                              <i class="fab fa-linkedin"></i> LinkedIn
+                          </button>
+                          <span id="copyStatus-${shareSlug}" style="color: var(--success-color); font-weight: 600; display: none;">Link copied!</span>
+                      </div>
+                  </div>
+              `;
+              
               if (post.citations && post.citations.length > 0) {
                   modalContent += `
                       <div class="citations-section">
@@ -2230,15 +2298,13 @@
                   `;
               }
               
-              document.getElementById('modalBody').innerHTML = modalContent;
-              document.getElementById('blogModal').classList.add('active');
+              modalBody.innerHTML = modalContent;
+              blogModal.classList.add('active');
               document.body.style.overflow = 'hidden';
           }
 
           function formatCitation(citation, number) {
-              // Handle different citation formats
               if (typeof citation === 'string') {
-                  // Simple string citation
                   return `
                       <li class="citation-item">
                           <span class="citation-number">${number}</span>
@@ -2246,14 +2312,12 @@
                       </li>
                   `;
               } else if (typeof citation === 'object') {
-                  // Structured citation object
                   let citationHtml = `
                       <li class="citation-item">
                           <span class="citation-number">${number}</span>
                           <span class="citation-content">
                   `;
                   
-                  // Add author(s)
                   if (citation.authors) {
                       if (Array.isArray(citation.authors)) {
                           citationHtml += `<strong>${citation.authors.join(', ')}</strong>. `;
@@ -2262,7 +2326,6 @@
                       }
                   }
                   
-                  // Add title
                   if (citation.title) {
                       if (citation.url) {
                           citationHtml += `<a href="${citation.url}" class="citation-link" target="_blank" rel="noopener">"${citation.title}"</a>. `;
@@ -2271,7 +2334,6 @@
                       }
                   }
                   
-                  // Add publication/source
                   if (citation.publication) {
                       citationHtml += `<em>${citation.publication}</em>`;
                       if (citation.year) {
@@ -2280,17 +2342,14 @@
                       citationHtml += '. ';
                   }
                   
-                  // Add DOI if available
                   if (citation.doi) {
                       citationHtml += `DOI: <a href="https://doi.org/${citation.doi}" class="citation-link" target="_blank" rel="noopener">${citation.doi}</a>. `;
                   }
                   
-                  // Add URL if no title link was created
                   if (citation.url && !citation.title) {
                       citationHtml += `Available at: <a href="${citation.url}" class="citation-link" target="_blank" rel="noopener">${citation.url}</a>. `;
                   }
                   
-                  // Add access date
                   if (citation.accessDate) {
                       citationHtml += `<br><span class="citation-access-date">[Enacted: ${formatDate(citation.accessDate)}]</span>`;
                   }
@@ -2303,7 +2362,6 @@
                   return citationHtml;
               }
               
-              // Fallback for unexpected format
               return `
                   <li class="citation-item">
                       <span class="citation-number">${number}</span>
@@ -2315,6 +2373,10 @@
           function closeBlogModal() {
               document.getElementById('blogModal').classList.remove('active');
               document.body.style.overflow = 'auto';
+              
+              if (window.location.hash.startsWith('#articles/')) {
+                  window.history.pushState(null, null, '#articles');
+              }
           }
   
           function openVideoModal(videoUrl, title, uploadDate, duration) {
@@ -2620,6 +2682,65 @@
                   day: 'numeric'
               });
           }
+
+          function copyArticleLink(articleSlug) {
+              const url = `${window.location.origin}${window.location.pathname}#articles/${articleSlug}`;
+              navigator.clipboard.writeText(url).then(() => {
+                  const statusElement = document.getElementById(`copyStatus-${articleSlug}`);
+                  if (statusElement) {
+                      statusElement.style.display = 'inline';
+                      setTimeout(() => {
+                          statusElement.style.display = 'none';
+                      }, 2000);
+                  }
+              }).catch(err => {
+                  console.error('Failed to copy link:', err);
+                  const textArea = document.createElement('textarea');
+                  textArea.value = url;
+                  document.body.appendChild(textArea);
+                  textArea.select();
+                  try {
+                      document.execCommand('copy');
+                      const statusElement = document.getElementById(`copyStatus-${articleSlug}`);
+                      if (statusElement) {
+                          statusElement.style.display = 'inline';
+                          setTimeout(() => {
+                              statusElement.style.display = 'none';
+                          }, 2000);
+                      }
+                  } catch (err) {
+                      console.error('Fallback copy failed:', err);
+                  }
+                  document.body.removeChild(textArea);
+              });
+          }
+
+          function shareOnTwitter(articleSlug) {
+              let post = blogPosts.find(p => p.slug === articleSlug);
+              if (!post) {
+                  post = blogPosts.find(p => p.id === articleSlug);
+              }
+              if (!post) return;
+              
+              const url = `${window.location.origin}${window.location.pathname}#articles/${articleSlug}`;
+              const text = `Check out this article: "${post.title}" by ${post.author} @OrbitalConservation`;
+              const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+              window.open(twitterUrl, '_blank');
+          }
+
+          function shareOnLinkedIn(articleSlug) {
+              let post = blogPosts.find(p => p.slug === articleSlug);
+              if (!post) {
+                  post = blogPosts.find(p => p.id === articleSlug);
+              }
+              if (!post) return;
+              
+              const url = `${window.location.origin}${window.location.pathname}#articles/${articleSlug}`;
+              const title = post.title;
+              const summary = post.excerpt;
+              const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`;
+              window.open(linkedInUrl, '_blank');
+          }
   
           document.querySelectorAll('a[href^="#"]:not([href="#home"]):not([href="#about"]):not([href="#articles"]):not([href="#insight"]):not([href="#team"]):not([href="#contact"])').forEach(anchor => {
               anchor.addEventListener('click', function (e) {
@@ -2676,9 +2797,7 @@
           });
   
           window.addEventListener('popstate', function(e) {
-              const hash = window.location.hash.slice(1) || 'home';
-              showSection(hash);
-              updateActiveSection(hash);
+              handleRouteChange();
           });
       </script>
   </body>
