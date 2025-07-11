@@ -98,11 +98,13 @@
         {
           "authors": ["ClearSpace"],
           "title": "About ClearSpace",
+          "publication": "ClearSpace Website",
           "url": "https://clearspace.today/about"
         },
         {
-          "authors": ["ESA"],
+          "authors": ["European Space Agency"],
           "title": "ESA - ClearSpace-1",
+          "publication": "ESA Website",
           "url": "https://www.esa.int/Space_Safety/ClearSpace-1"
         }
       ]
