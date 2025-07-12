@@ -77,6 +77,32 @@
       "price": "£36.00",
       "author": "Technical University of Munich",
       "tags": ["Intermediate", "Innovation", "Research", "Strategy"]
+    },
+    {
+      "name": "Space Agency Simulator",
+      "description": "Take control of your own space agency and guide your nation to become a major player in space exploration. Design and build rockets, manage resources, conduct research, and navigate the political landscape while dealing with realistic space debris and orbital mechanics challenges.",
+      "link": "https://store.steampowered.com/app/1622430/Space_Agency_Simulator/",
+      "type": "game",
+      "free": false,
+      "price": "£15.99",
+      "author": "Rocketwerk",
+      "platform": "Steam",
+      "releaseDate": "2023-03-15",
+      "genre": "Simulation/Strategy",
+      "tags": ["Simulation", "Strategy", "Educational", "Space Management"]
+    },
+    {
+      "name": "Kerbal Space Program",
+      "description": "Build spacecraft, fly them, and try to help the Kerbals fulfill their ultimate mission of conquering space. A game that teaches real orbital mechanics, rocket science principles, and the challenges of space exploration including debris management and sustainable space operations.",
+      "link": "https://store.steampowered.com/app/220200/Kerbal_Space_Program/",
+      "type": "game",
+      "free": false,
+      "price": "£34.99",
+      "author": "Squad",
+      "platform": "Multiple Platforms",
+      "releaseDate": "2015-04-27",
+      "genre": "Simulation",
+      "tags": ["Physics", "Engineering", "Educational", "Orbital Mechanics"]
     }
   ]
 }
