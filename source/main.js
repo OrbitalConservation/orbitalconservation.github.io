@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     setupEventListeners();
     animateStats();
 
+    // Load blog posts first, then handle initial route
     await loadBlogPosts();
     loadLearningCourses();
     handleInitialRoute();
@@ -46,44 +47,66 @@ function renderLearningCourses() {
         return;
     }
 
-    grid.innerHTML = filteredLearning.map(resource => {
+    grid.innerHTML = filteredLearning.map((resource, index) => {
         const isYoutube = resource.type === 'youtube';
-        const typeIcon = isYoutube ? '<i class="fab fa-youtube"></i>' : '<i class="fas fa-graduation-cap"></i>';
-        const typeLabel = isYoutube ? 'YouTube' : 'Course';
-        const buttonText = isYoutube ? 'Watch Video' : 'View Details';
+        const isGame = resource.type === 'game';
+
+        let typeIcon, typeLabel, buttonText;
+        if (isYoutube) {
+            typeIcon = '<i class="fab fa-youtube"></i>';
+            typeLabel = 'YouTube';
+            buttonText = 'Watch Video';
+        } else if (isGame) {
+            typeIcon = '<i class="fas fa-gamepad"></i>';
+            typeLabel = 'Game';
+            buttonText = 'View Game';
+        } else {
+            typeIcon = '<i class="fas fa-graduation-cap"></i>';
+            typeLabel = 'Course';
+            buttonText = 'View Details';
+        }
+
         const formattedPrice = formatPrice(resource.price);
 
+        // Store resource data in a global array to avoid JSON stringify issues
+        if (!window.learningResourcesData) {
+            window.learningResourcesData = [];
+        }
+        window.learningResourcesData[index] = resource;
+
         return `
-              <article class="blog-card ${isYoutube ? 'youtube-video-card' : ''}" ${isYoutube ? `onclick="openVideoModal('${resource.link}', '${resource.name}', '${resource.uploadDate || ''}', '${resource.duration || ''}')"` : `onclick="openCourseModal('${encodeURIComponent(JSON.stringify(resource))}')"`}>
-                  <div class="blog-card-header">
-                      <div class="blog-meta" style="margin-bottom: 1rem;">
-                          <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-weight: 600;">
-                              ${typeIcon} ${typeLabel}
-                          </span>
-                          ${resource.author ? `<span style="color: var(--text-light); font-size: 0.85rem;"><i class="fas fa-user"></i> ${resource.author}${resource.authorOrganization ? ` (${resource.authorOrganization})` : ''}</span>` : ''}
-                          ${isYoutube && resource.uploadDate ? `<span style="color: var(--text-light); font-size: 0.85rem;">Uploaded: ${formatDate(resource.uploadDate)}</span>` : ''}
-                          ${isYoutube && resource.duration ? `<span style="color: var(--text-light); font-size: 0.85rem; display: flex; align-items: center; gap: 0.25rem;"><i class="fas fa-clock"></i> ${resource.duration}</span>` : ''}
-                      </div>
-                      <h3 class="blog-title">${resource.name}</h3>
-                      <p class="course-excerpt">${resource.description}</p>
-                  </div>
-                  <div class="blog-card-footer" style="justify-content: flex-start; align-items: flex-start; flex-direction: column; gap: 1rem;">
-                      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
-                          ${isYoutube ?
-                `<button class="btn btn-primary" onclick="event.stopPropagation(); openVideoModal('${resource.link}', '${resource.name}', '${resource.uploadDate || ''}', '${resource.duration || ''}')">${buttonText}</button>` :
-                `<button class="btn btn-primary" onclick="event.stopPropagation(); openCourseModal('${encodeURIComponent(JSON.stringify(resource))}')">${buttonText}</button>`
+                <article class="blog-card ${isYoutube ? 'youtube-video-card' : ''}" onclick="${isYoutube ? `openVideoModal('${resource.link.replace(/'/g, "\\'")}', '${resource.name.replace(/'/g, "\\'")}', '${(resource.uploadDate || '').replace(/'/g, "\\'")}', '${(resource.duration || '').replace(/'/g, "\\'")}')"` : `openCourseModalByIndex(${index})`}">
+                    <div class="blog-card-header">
+                        <div class="blog-meta" style="margin-bottom: 1rem;">
+                            <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-weight: 600;">
+                                ${typeIcon} ${typeLabel}
+                            </span>
+                            ${resource.author ? `<span style="color: var(--text-light); font-size: 0.85rem;"><i class="fas fa-user"></i> ${resource.author}${resource.authorOrganization ? ` (${resource.authorOrganization})` : ''}</span>` : ''}
+                            ${isYoutube && resource.uploadDate ? `<span style="color: var(--text-light); font-size: 0.85rem;">Uploaded: ${formatDate(resource.uploadDate)}</span>` : ''}
+                            ${isYoutube && resource.duration ? `<span style="color: var(--text-light); font-size: 0.85rem; display: flex; align-items: center; gap: 0.25rem;"><i class="fas fa-clock"></i> ${resource.duration}</span>` : ''}
+                            ${isGame && resource.platform ? `<span style="color: var(--text-light); font-size: 0.85rem;"><i class="fas fa-desktop"></i> ${resource.platform}</span>` : ''}
+                            ${isGame && resource.releaseDate ? `<span style="color: var(--text-light); font-size: 0.85rem;">Released: ${formatDate(resource.releaseDate)}</span>` : ''}
+                        </div>
+                        <h3 class="blog-title">${resource.name}</h3>
+                        <p class="course-excerpt">${resource.description}</p>
+                    </div>
+                    <div class="blog-card-footer" style="justify-content: flex-start; align-items: flex-start; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;">
+                            ${isYoutube ?
+                `<button class="btn btn-primary" onclick="event.stopPropagation(); openVideoModal('${resource.link.replace(/'/g, "\\'")}', '${resource.name.replace(/'/g, "\\'")}', '${(resource.uploadDate || '').replace(/'/g, "\\'")}', '${(resource.duration || '').replace(/'/g, "\\'")}')">${buttonText}</button>` :
+                `<button class="btn btn-primary" onclick="event.stopPropagation(); openCourseModalByIndex(${index})">${buttonText}</button>`
             }
-                          ${!isYoutube ? `<span class="tag" style="background:${resource.free ? 'var(--success-color)' : 'var(--danger-color)'};">${resource.free ? 'Free' : 'Paid'}</span>` : ''}
-                          ${!isYoutube && !resource.free && resource.price ? `<span class="tag" style="background:var(--warning-color);">${formattedPrice}</span>` : ''}
-                      </div>
-                      ${resource.tags && resource.tags.length > 0 ? `
-                          <div class="blog-tags" style="margin-top: 0.5rem;">
-                              ${resource.tags.map(tag => `<span class="tag" style="background: #6B7280; color: white;">${tag}</span>`).join('')}
-                          </div>
-                      ` : ''}
-                  </div>
-              </article>
-          `;
+                            ${!isYoutube ? `<span class="tag" style="background:${resource.free ? 'var(--success-color)' : 'var(--danger-color)'};">${resource.free ? 'Free' : 'Paid'}</span>` : ''}
+                            ${!isYoutube && !resource.free && resource.price ? `<span class="tag" style="background:var(--warning-color);">${formattedPrice}</span>` : ''}
+                        </div>
+                        ${resource.tags && resource.tags.length > 0 ? `
+                            <div class="blog-tags" style="margin-top: 0.5rem;">
+                                ${resource.tags.map(tag => `<span class="tag" style="background: #6B7280; color: white;">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </article>
+            `;
     }).join('');
 }
 
@@ -109,27 +132,34 @@ function initializeApp() {
 }
 
 function setupRouting() {
+    // Only add hashchange listener during setup
     window.addEventListener('hashchange', handleRouteChange);
+    // Don't add load listener here since we handle initial route separately
 }
 
 function handleInitialRoute() {
+    // Use the same logic as handleRouteChange for consistency
     handleRouteChange();
 }
 
 function handleRouteChange() {
     const hash = window.location.hash.slice(1) || 'home';
 
+    // Check if this is an article link (e.g., #articles/article-slug)
     if (hash.startsWith('articles/')) {
         const articleSlug = hash.split('/')[1];
         showSection('articles');
         updateActiveSection('articles');
 
+        // Wait for articles to load, then open the specific article
         const openArticleWhenReady = () => {
             if (blogPosts && blogPosts.length > 0) {
+                // Give a brief moment for DOM to be ready
                 setTimeout(() => {
                     openBlogModalBySlug(articleSlug);
                 }, 100);
             } else {
+                // If articles aren't loaded yet, check every 100ms
                 const checkArticles = setInterval(() => {
                     if (blogPosts && blogPosts.length > 0) {
                         clearInterval(checkArticles);
@@ -139,6 +169,7 @@ function handleRouteChange() {
                     }
                 }, 100);
 
+                // Timeout after 10 seconds to avoid infinite waiting
                 setTimeout(() => {
                     clearInterval(checkArticles);
                     console.warn('Timeout waiting for articles to load');
@@ -148,6 +179,7 @@ function handleRouteChange() {
 
         openArticleWhenReady();
     } else {
+        // Normal section navigation
         showSection(hash);
         updateActiveSection(hash);
         if (hash === 'insight') {
@@ -294,24 +326,24 @@ function renderBlogPosts() {
     blogGrid.innerHTML = filteredPosts.map(post => {
         const slug = post.slug || post.id;
         return `
-                      <article class="blog-card ${post.featured ? 'featured' : ''}" onclick="openBlogModalBySlug('${slug}')">
-                          <div class="blog-card-header">
-                              <div class="blog-meta">
-                                  <span>By ${post.author}</span>
-                                  <span>${formatDate(post.publishDate)}</span>
-                                  <span class="read-time">${post.readTime} min read</span>
-                              </div>
-                              <h3 class="blog-title">${post.title}</h3>
-                              <p class="blog-excerpt">${post.excerpt}</p>
-                          </div>
-                          <div class="blog-card-footer">
-                              <div class="blog-tags">
-                                  ${post.tags.slice(0, 2).map(tag => `<span class="tag">${tag}</span>`).join('')}
-                              </div>
-                              <div class="read-time">${post.category}</div>
-                          </div>
-                      </article>
-                  `;
+                        <article class="blog-card ${post.featured ? 'featured' : ''}" onclick="openBlogModalBySlug('${slug}')">
+                            <div class="blog-card-header">
+                                <div class="blog-meta">
+                                    <span>By ${post.author}</span>
+                                    <span>${formatDate(post.publishDate)}</span>
+                                    <span class="read-time">${post.readTime} min read</span>
+                                </div>
+                                <h3 class="blog-title">${post.title}</h3>
+                                <p class="blog-excerpt">${post.excerpt}</p>
+                            </div>
+                            <div class="blog-card-footer">
+                                <div class="blog-tags">
+                                    ${post.tags.slice(0, 2).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                </div>
+                                <div class="read-time">${post.category}</div>
+                            </div>
+                        </article>
+                    `;
     }).join('');
 }
 
@@ -331,8 +363,10 @@ function updateActiveFilter(activeBtn) {
     });
     activeBtn.classList.add('active');
 } function openBlogModalBySlug(slug) {
+    // Decode slug in case it has URL encoding
     const decodedSlug = decodeURIComponent(slug);
 
+    // First try to find by slug, then fallback to id for backward compatibility
     let post = blogPosts.find(p => p.slug === decodedSlug);
     if (!post) {
         post = blogPosts.find(p => p.id === decodedSlug);
@@ -340,10 +374,12 @@ function updateActiveFilter(activeBtn) {
 
     if (!post) {
         console.warn('Article not found with slug or id:', decodedSlug);
+        // If article not found, navigate back to articles page
         window.history.replaceState(null, null, '#articles');
         return;
     }
 
+    // Update URL to use the actual slug (or id if no slug exists)
     const actualSlug = post.slug || post.id;
     const currentHash = window.location.hash;
     const newHash = `#articles/${actualSlug}`;
@@ -355,6 +391,7 @@ function updateActiveFilter(activeBtn) {
 }
 
 function displayArticleModal(post) {
+    // Check if modal elements exist
     const modalTitle = document.getElementById('modalTitle');
     const modalMeta = document.getElementById('modalMeta');
     const modalBody = document.getElementById('modalBody');
@@ -367,47 +404,50 @@ function displayArticleModal(post) {
 
     modalTitle.textContent = post.title;
     modalMeta.innerHTML = `
-                  <span><strong>Author:</strong> ${post.author} (${post.authorRole})</span>
-                  <span><strong>Published:</strong> ${formatDate(post.publishDate)}</span>
-                  <span><strong>Category:</strong> ${post.category}</span>
-                  <span><strong>Read Time:</strong> ${post.readTime} minutes</span>
-              `;
+                    <span><strong>Author:</strong> ${post.author} (${post.authorRole})</span>
+                    <span><strong>Published:</strong> ${formatDate(post.publishDate)}</span>
+                    <span><strong>Category:</strong> ${post.category}</span>
+                    <span><strong>Read Time:</strong> ${post.readTime} minutes</span>
+                `;
 
+    // Main content
     let modalContent = post.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
 
+    // Add share section (use slug for sharing, fallback to id)
     const shareSlug = post.slug || post.id;
     modalContent += `
-                  <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius); margin: 2rem 0; border-left: 4px solid var(--accent-color);">
-                      <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                          <i class="fas fa-share-alt"></i> Share this Article
-                      </h4>
-                      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-                          <button onclick="copyArticleLink('${shareSlug}')" class="btn btn-primary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem;">
-                              <i class="fas fa-copy"></i> Copy Link
-                          </button>
-                          <button onclick="shareOnTwitter('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #1da1f2; color: white; border: none;">
-                              <i class="fab fa-twitter"></i> Twitter
-                          </button>
-                          <button onclick="shareOnLinkedIn('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #0077b5; color: white; border: none;">
-                              <i class="fab fa-linkedin"></i> LinkedIn
-                          </button>
-                          <span id="copyStatus-${shareSlug}" style="color: var(--success-color); font-weight: 600; display: none;">Link copied!</span>
-                      </div>
-                  </div>
-              `;
+                    <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius); margin: 2rem 0; border-left: 4px solid var(--accent-color);">
+                        <h4 style="color: var(--primary-color); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-share-alt"></i> Share this Article
+                        </h4>
+                        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                            <button onclick="copyArticleLink('${shareSlug}')" class="btn btn-primary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <i class="fas fa-copy"></i> Copy Link
+                            </button>
+                            <button onclick="shareOnTwitter('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #1da1f2; color: white; border: none;">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </button>
+                            <button onclick="shareOnLinkedIn('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #0077b5; color: white; border: none;">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </button>
+                            <span id="copyStatus-${shareSlug}" style="color: var(--success-color); font-weight: 600; display: none;">Link copied!</span>
+                        </div>
+                    </div>
+                `;
 
+    // Add citations section if available
     if (post.citations && post.citations.length > 0) {
         modalContent += `
-                      <div class="citations-section">
-                          <h3 class="citations-title">
-                              <i class="fas fa-bookmark"></i>
-                              References & Sources
-                          </h3>
-                          <ol class="citations-list">
-                              ${post.citations.map((citation, index) => formatCitation(citation, index + 1)).join('')}
-                          </ol>
-                      </div>
-                  `;
+                        <div class="citations-section">
+                            <h3 class="citations-title">
+                                <i class="fas fa-bookmark"></i>
+                                References & Sources
+                            </h3>
+                            <ol class="citations-list">
+                                ${post.citations.map((citation, index) => formatCitation(citation, index + 1)).join('')}
+                            </ol>
+                        </div>
+                    `;
     }
 
     modalBody.innerHTML = modalContent;
@@ -416,20 +456,24 @@ function displayArticleModal(post) {
 }
 
 function formatCitation(citation, number) {
+    // Handle different citation formats
     if (typeof citation === 'string') {
+        // Simple string citation
         return `
-                      <li class="citation-item">
-                          <span class="citation-number">${number}</span>
-                          <span class="citation-content">${citation}</span>
-                      </li>
-                  `;
+                        <li class="citation-item">
+                            <span class="citation-number">${number}</span>
+                            <span class="citation-content">${citation}</span>
+                        </li>
+                    `;
     } else if (typeof citation === 'object') {
+        // Structured citation object
         let citationHtml = `
-                      <li class="citation-item">
-                          <span class="citation-number">${number}</span>
-                          <span class="citation-content">
-                  `;
+                        <li class="citation-item">
+                            <span class="citation-number">${number}</span>
+                            <span class="citation-content">
+                    `;
 
+        // Add author(s)
         if (citation.authors) {
             if (Array.isArray(citation.authors)) {
                 citationHtml += `<strong>${citation.authors.join(', ')}</strong>. `;
@@ -438,6 +482,7 @@ function formatCitation(citation, number) {
             }
         }
 
+        // Add title
         if (citation.title) {
             if (citation.url) {
                 citationHtml += `<a href="${citation.url}" class="citation-link" target="_blank" rel="noopener">"${citation.title}"</a>. `;
@@ -446,6 +491,7 @@ function formatCitation(citation, number) {
             }
         }
 
+        // Add publication/source
         if (citation.publication) {
             citationHtml += `<em>${citation.publication}</em>`;
             if (citation.year) {
@@ -454,38 +500,43 @@ function formatCitation(citation, number) {
             citationHtml += '. ';
         }
 
+        // Add DOI if available
         if (citation.doi) {
             citationHtml += `DOI: <a href="https://doi.org/${citation.doi}" class="citation-link" target="_blank" rel="noopener">${citation.doi}</a>. `;
         }
 
+        // Add URL if no title link was created
         if (citation.url && !citation.title) {
             citationHtml += `Available at: <a href="${citation.url}" class="citation-link" target="_blank" rel="noopener">${citation.url}</a>. `;
         }
 
+        // Add access date
         if (citation.accessDate) {
             citationHtml += `<br><span class="citation-access-date">[Enacted: ${formatDate(citation.accessDate)}]</span>`;
         }
 
         citationHtml += `
-                          </span>
-                      </li>
-                  `;
+                            </span>
+                        </li>
+                    `;
 
         return citationHtml;
     }
 
+    // Fallback for unexpected format
     return `
-                  <li class="citation-item">
-                      <span class="citation-number">${number}</span>
-                      <span class="citation-content">${citation}</span>
-                  </li>
-              `;
+                    <li class="citation-item">
+                        <span class="citation-number">${number}</span>
+                        <span class="citation-content">${citation}</span>
+                    </li>
+                `;
 }
 
 function closeBlogModal() {
     document.getElementById('blogModal').classList.remove('active');
     document.body.style.overflow = 'auto';
 
+    // Return to articles section URL when closing modal
     if (window.location.hash.startsWith('#articles/')) {
         window.history.pushState(null, null, '#articles');
     }
@@ -504,10 +555,10 @@ function openVideoModal(videoUrl, title, uploadDate, duration) {
 
     let metaInfo = '';
     if (uploadDate) {
-        metaInfo += `<span><i class="fas fa-calendar"></i> Uploaded: ${formatDate(uploadDate)}</span>`;
+        metaInfo += `<span><i class="fas fa-calendar"></i> Uploaded: ${formatDate(uploadDate)}</span>&nbsp;&nbsp;`;
     }
     if (duration) {
-        metaInfo += `${metaInfo ? ' • ' : ''}<span><i class="fas fa-clock"></i> ${duration}</span>`;
+        metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-clock"></i> ${duration}</span>`;
     }
     document.getElementById('videoModalMeta').innerHTML = metaInfo;
 
@@ -528,71 +579,101 @@ function extractYouTubeVideoId(url) {
     return match ? match[1] : null;
 }
 
-function openCourseModal(encodedCourseData) {
-    try {
-        const course = JSON.parse(decodeURIComponent(encodedCourseData));
-
-        document.getElementById('courseModalTitle').textContent = course.name;
-
-        let metaInfo = '';
-        if (course.author) {
-            metaInfo += `<span><i class="fas fa-user"></i> ${course.author}${course.authorOrganization ? ` (${course.authorOrganization})` : ''}</span>`;
-        }
-        if (course.duration) {
-            metaInfo += `${metaInfo ? ' • ' : ''}<span><i class="fas fa-clock"></i> ${course.duration}</span>`;
-        }
-        if (course.level) {
-            metaInfo += `${metaInfo ? ' • ' : ''}<span><i class="fas fa-chart-line"></i> ${course.level}</span>`;
-        }
-        document.getElementById('courseModalMeta').innerHTML = metaInfo;
-
-        let pricingInfo = '';
-        if (course.free) {
-            pricingInfo = '<span class="pricing-badge free"><i class="fas fa-gift"></i> Free</span>';
-        } else {
-            pricingInfo = '<span class="pricing-badge paid"><i class="fas fa-credit-card"></i> Paid</span>';
-            if (course.price) {
-                pricingInfo += `<span class="price-display"><i class="fas fa-tag"></i> ${formatPrice(course.price)}</span>`;
-            }
-        }
-        document.getElementById('courseModalPricing').innerHTML = pricingInfo;
-
-        const description = course.fullDescription || course.description || 'No detailed description available.';
-        document.getElementById('courseModalBody').innerHTML = `
-                      <p>${description}</p>
-                      ${course.learningOutcomes ? `
-                          <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">What You'll Learn:</h4>
-                          <ul style="color: var(--text-light); line-height: 1.8;">
-                              ${course.learningOutcomes.map(outcome => `<li>${outcome}</li>`).join('')}
-                          </ul>
-                      ` : ''}
-                      ${course.prerequisites ? `
-                          <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Prerequisites:</h4>
-                          <ul style="color: var(--text-light); line-height: 1.8;">
-                              ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
-                          </ul>
-                      ` : ''}
-                  `;
-
-        let actionsHtml = `<a href="${course.link}" class="btn btn-primary" target="_blank" rel="noopener">
-                      <i class="fas fa-external-link-alt" style="margin-right: 10px;"></i> Go to Course
-                  </a>`;
-
-        if (course.tags && course.tags.length > 0) {
-            actionsHtml += `
-                          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-left: auto;">
-                              ${course.tags.map(tag => `<span class="tag" style="background: #6B7280; color: white;">${tag}</span>`).join('')}
-                          </div>
-                      `;
-        }
-
-        document.getElementById('courseModalActions').innerHTML = actionsHtml;
-
-        document.getElementById('courseModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-    } catch (error) {
-        console.error('Error opening course modal:', error);
+function openCourseModalByIndex(index) {
+    if (!window.learningResourcesData || !window.learningResourcesData[index]) {
+        console.error('Course data not found for index:', index);
+        return;
     }
+    const course = window.learningResourcesData[index];
+    openCourseModal(course);
+}
+
+function openCourseModal(courseData) {
+    let course;
+
+    // Handle both encoded string data (legacy) and direct object data (new)
+    if (typeof courseData === 'string') {
+        try {
+            course = JSON.parse(decodeURIComponent(courseData));
+        } catch (error) {
+            console.error('Error parsing course data:', error);
+            return;
+        }
+    } else {
+        course = courseData;
+    }
+
+    document.getElementById('courseModalTitle').textContent = course.name;
+
+    let metaInfo = '';
+    if (course.author) {
+        metaInfo += `<span><i class="fas fa-user"></i> ${course.author}${course.authorOrganization ? ` (${course.authorOrganization})` : ''}</span>`;
+    }
+    if (course.duration) {
+        metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-clock"></i> ${course.duration}</span>`;
+    }
+    if (course.level) {
+        metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-chart-line"></i> ${course.level}</span>`;
+    }
+    // Add game-specific metadata
+    if (course.type === 'game') {
+        if (course.platform) {
+            metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-desktop"></i> ${course.platform}</span>`;
+        }
+        if (course.genre) {
+            metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-list"></i> ${course.genre}</span>`;
+        }
+        if (course.releaseDate) {
+            metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-calendar"></i> Released: ${formatDate(course.releaseDate)}</span>`;
+        }
+    }
+    document.getElementById('courseModalMeta').innerHTML = metaInfo;
+
+    let pricingInfo = '';
+    if (course.free) {
+        pricingInfo = '<span class="pricing-badge free"><i class="fas fa-gift"></i> Free</span>';
+    } else {
+        pricingInfo = '<span class="pricing-badge paid"><i class="fas fa-credit-card"></i> Paid</span>';
+        if (course.price) {
+            pricingInfo += `<span class="price-display"><i class="fas fa-tag"></i> ${formatPrice(course.price)}</span>`;
+        }
+    }
+    document.getElementById('courseModalPricing').innerHTML = pricingInfo;
+
+    const description = course.fullDescription || course.description || 'No detailed description available.';
+    document.getElementById('courseModalBody').innerHTML = `
+                    <p>${description}</p>
+                    ${course.learningOutcomes ? `
+                        <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">What You'll Learn:</h4>
+                        <ul style="color: var(--text-light); line-height: 1.8;">
+                            ${course.learningOutcomes.map(outcome => `<li>${outcome}</li>`).join('')}
+                        </ul>
+                    ` : ''}
+                    ${course.prerequisites ? `
+                        <h4 style="color: var(--primary-color); margin-top: 2rem; margin-bottom: 1rem;">Prerequisites:</h4>
+                        <ul style="color: var(--text-light); line-height: 1.8;">
+                            ${course.prerequisites.map(prereq => `<li>${prereq}</li>`).join('')}
+                        </ul>
+                    ` : ''}
+                `;
+
+    const linkText = course.type === 'game' ? 'View on Store' : 'Go to Course';
+    let actionsHtml = `<a href="${course.link}" class="btn btn-primary" target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt" style="margin-right: 10px;"></i> ${linkText}
+                </a>`;
+
+    if (course.tags && course.tags.length > 0) {
+        actionsHtml += `
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-left: auto;">
+                            ${course.tags.map(tag => `<span class="tag" style="background: #6B7280; color: white;">${tag}</span>`).join('')}
+                        </div>
+                    `;
+    }
+
+    document.getElementById('courseModalActions').innerHTML = actionsHtml;
+
+    document.getElementById('courseModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
 function closeCourseModal() {
@@ -653,20 +734,20 @@ function handleContactForm(e) {
     }
 
     const emailContent = `
-  New Contact Form Submission from OCI Website
-  
-  Name: ${data.from_name}
-  Email: ${data.from_email}
-  Organization: ${data.organization}
-  Subject: ${data.subject}
-  
-  Message:
-  ${data.message}
-  
-  ---
-  This message was sent from the OCI website contact form.
-  Timestamp: ${new Date().toISOString()}
-              `.trim();
+    New Contact Form Submission from OCI Website
+    
+    Name: ${data.from_name}
+    Email: ${data.from_email}
+    Organization: ${data.organization}
+    Subject: ${data.subject}
+    
+    Message:
+    ${data.message}
+    
+    ---
+    This message was sent from the OCI website contact form.
+    Timestamp: ${new Date().toISOString()}
+                `.trim();
 
     if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
         const templateParams = {
@@ -795,6 +876,7 @@ function formatDate(dateString) {
     });
 }
 
+// Article sharing functions
 function copyArticleLink(articleSlug) {
     const url = `${window.location.origin}${window.location.pathname}#articles/${articleSlug}`;
     navigator.clipboard.writeText(url).then(() => {
@@ -807,6 +889,7 @@ function copyArticleLink(articleSlug) {
         }
     }).catch(err => {
         console.error('Failed to copy link:', err);
+        // Fallback for older browsers
         const textArea = document.createElement('textarea');
         textArea.value = url;
         document.body.appendChild(textArea);
@@ -828,6 +911,7 @@ function copyArticleLink(articleSlug) {
 }
 
 function shareOnTwitter(articleSlug) {
+    // Find article by slug first, then fallback to id
     let post = blogPosts.find(p => p.slug === articleSlug);
     if (!post) {
         post = blogPosts.find(p => p.id === articleSlug);
@@ -841,6 +925,7 @@ function shareOnTwitter(articleSlug) {
 }
 
 function shareOnLinkedIn(articleSlug) {
+    // Find article by slug first, then fallback to id
     let post = blogPosts.find(p => p.slug === articleSlug);
     if (!post) {
         post = blogPosts.find(p => p.id === articleSlug);
@@ -909,5 +994,6 @@ document.querySelectorAll('.blog-card, .about-card, .team-card, .stat-card').for
 });
 
 window.addEventListener('popstate', function (e) {
+    // Use handleRouteChange to properly handle article URLs
     handleRouteChange();
 });
