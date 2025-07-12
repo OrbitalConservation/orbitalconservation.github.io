@@ -657,7 +657,7 @@ function openCourseModal(courseData) {
                     ` : ''}
                 `;
 
-    const linkText = course.type === 'game' ? 'View on Store' : 'Go to Course';
+    const linkText = course.type === 'game' ? 'View Game' : 'Go to Course';
     let actionsHtml = `<a href="${course.link}" class="btn btn-primary" target="_blank" rel="noopener">
                     <i class="fas fa-external-link-alt" style="margin-right: 10px;"></i> ${linkText}
                 </a>`;
