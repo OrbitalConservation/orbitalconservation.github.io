@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     setupEventListeners();
     animateStats();
 
-    // Load blog posts first, then handle initial route
     await loadBlogPosts();
     loadLearningCourses();
     handleInitialRoute();
@@ -68,7 +67,6 @@ function renderLearningCourses() {
 
         const formattedPrice = formatPrice(resource.price);
 
-        // Store resource data in a global array to avoid JSON stringify issues
         if (!window.learningResourcesData) {
             window.learningResourcesData = [];
         }
@@ -132,34 +130,27 @@ function initializeApp() {
 }
 
 function setupRouting() {
-    // Only add hashchange listener during setup
     window.addEventListener('hashchange', handleRouteChange);
-    // Don't add load listener here since we handle initial route separately
 }
 
 function handleInitialRoute() {
-    // Use the same logic as handleRouteChange for consistency
     handleRouteChange();
 }
 
 function handleRouteChange() {
     const hash = window.location.hash.slice(1) || 'home';
 
-    // Check if this is an article link (e.g., #articles/article-slug)
     if (hash.startsWith('articles/')) {
         const articleSlug = hash.split('/')[1];
         showSection('articles');
         updateActiveSection('articles');
 
-        // Wait for articles to load, then open the specific article
         const openArticleWhenReady = () => {
             if (blogPosts && blogPosts.length > 0) {
-                // Give a brief moment for DOM to be ready
                 setTimeout(() => {
                     openBlogModalBySlug(articleSlug);
                 }, 100);
             } else {
-                // If articles aren't loaded yet, check every 100ms
                 const checkArticles = setInterval(() => {
                     if (blogPosts && blogPosts.length > 0) {
                         clearInterval(checkArticles);
@@ -169,7 +160,6 @@ function handleRouteChange() {
                     }
                 }, 100);
 
-                // Timeout after 10 seconds to avoid infinite waiting
                 setTimeout(() => {
                     clearInterval(checkArticles);
                     console.warn('Timeout waiting for articles to load');
@@ -179,7 +169,6 @@ function handleRouteChange() {
 
         openArticleWhenReady();
     } else {
-        // Normal section navigation
         showSection(hash);
         updateActiveSection(hash);
         if (hash === 'insight') {
@@ -325,13 +314,15 @@ function renderBlogPosts() {
 
     blogGrid.innerHTML = filteredPosts.map(post => {
         const slug = post.slug || post.id;
+        const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
+        const dynamicReadTime = Math.max(1, Math.round(wordCount / 200));
         return `
                         <article class="blog-card ${post.featured ? 'featured' : ''}" onclick="openBlogModalBySlug('${slug}')">
                             <div class="blog-card-header">
                                 <div class="blog-meta">
                                     <span>By ${post.author}</span>
                                     <span>${formatDate(post.publishDate)}</span>
-                                    <span class="read-time">${post.readTime} min read</span>
+                                    <span class="read-time">${dynamicReadTime} min read</span>
                                 </div>
                                 <h3 class="blog-title">${post.title}</h3>
                                 <p class="blog-excerpt">${post.excerpt}</p>
@@ -363,10 +354,8 @@ function updateActiveFilter(activeBtn) {
     });
     activeBtn.classList.add('active');
 } function openBlogModalBySlug(slug) {
-    // Decode slug in case it has URL encoding
     const decodedSlug = decodeURIComponent(slug);
 
-    // First try to find by slug, then fallback to id for backward compatibility
     let post = blogPosts.find(p => p.slug === decodedSlug);
     if (!post) {
         post = blogPosts.find(p => p.id === decodedSlug);
@@ -374,12 +363,10 @@ function updateActiveFilter(activeBtn) {
 
     if (!post) {
         console.warn('Article not found with slug or id:', decodedSlug);
-        // If article not found, navigate back to articles page
         window.history.replaceState(null, null, '#articles');
         return;
     }
 
-    // Update URL to use the actual slug (or id if no slug exists)
     const actualSlug = post.slug || post.id;
     const currentHash = window.location.hash;
     const newHash = `#articles/${actualSlug}`;
@@ -391,7 +378,6 @@ function updateActiveFilter(activeBtn) {
 }
 
 function displayArticleModal(post) {
-    // Check if modal elements exist
     const modalTitle = document.getElementById('modalTitle');
     const modalMeta = document.getElementById('modalMeta');
     const modalBody = document.getElementById('modalBody');
@@ -402,18 +388,22 @@ function displayArticleModal(post) {
         return;
     }
 
+    const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
+    const dynamicReadTime = Math.max(1, Math.round(wordCount / 200));
+
     modalTitle.textContent = post.title;
     modalMeta.innerHTML = `
                     <span><strong>Author:</strong> ${post.author} (${post.authorRole})</span>
                     <span><strong>Published:</strong> ${formatDate(post.publishDate)}</span>
                     <span><strong>Category:</strong> ${post.category}</span>
-                    <span><strong>Read Time:</strong> ${post.readTime} minutes</span>
+                    <span><strong>Read Time:</strong> ${dynamicReadTime} minutes</span>
                 `;
 
-    // Main content
-    let modalContent = post.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    let modalContent = post.content
+        .split(/\n\n+/)
+        .map(p => `<p style="margin-bottom:1.5em;">${p.replace(/\n/g, '<br>')}</p>`)
+        .join('');
 
-    // Add share section (use slug for sharing, fallback to id)
     const shareSlug = post.slug || post.id;
     modalContent += `
                     <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius); margin: 2rem 0; border-left: 4px solid var(--accent-color);">
@@ -430,12 +420,14 @@ function displayArticleModal(post) {
                             <button onclick="shareOnLinkedIn('${shareSlug}')" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #0077b5; color: white; border: none;">
                                 <i class="fab fa-linkedin"></i> LinkedIn
                             </button>
+                            <button id="downloadPdfBtn" class="btn btn-secondary" style="gap: 0.5em; font-size: 0.9rem; padding: 0.5rem 1rem; background: #343a40; color: white; border: none;">
+                                <i class="fas fa-file-pdf"></i> Download PDF
+                            </button>
                             <span id="copyStatus-${shareSlug}" style="color: var(--success-color); font-weight: 600; display: none;">Link copied!</span>
                         </div>
                     </div>
                 `;
 
-    // Add citations section if available
     if (post.citations && post.citations.length > 0) {
         modalContent += `
                         <div class="citations-section">
@@ -453,12 +445,186 @@ function displayArticleModal(post) {
     modalBody.innerHTML = modalContent;
     blogModal.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    function enablePdfButton() {
+        const pdfBtn = document.getElementById('downloadPdfBtn');
+        if (pdfBtn) {
+            pdfBtn.onclick = function () {
+                if (window.jspdf && window.jspdf.jsPDF && window.html2canvas) {
+                    downloadArticlePdf(post);
+                } else {
+                    alert('PDF export is not available. Please try again later.');
+                }
+            };
+            pdfBtn.disabled = false;
+        }
+    }
+
+    function loadJsPDF(callback) {
+        if (window.jspdf && window.jspdf.jsPDF) {
+            callback();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+        script.onload = function () {
+            setTimeout(callback, 100);
+        };
+        document.head.appendChild(script);
+    }
+
+    function loadHtml2Canvas(callback) {
+        if (window.html2canvas) {
+            callback();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        script.onload = function () {
+            setTimeout(callback, 100);
+        };
+        document.head.appendChild(script);
+    }
+
+    loadJsPDF(function () {
+        loadHtml2Canvas(enablePdfButton);
+    });
+
+    if (typeof html2pdf === 'undefined') {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        script.onload = function () {
+            window.html2pdfLoaded = true;
+        };
+        document.head.appendChild(script);
+    }
+
+    function downloadArticlePdf(post) {
+        const filename = `${post.title.replace(/[^a-z0-9]/gi, '_')}_OCI.pdf`;
+        const doc = new window.jspdf.jsPDF({
+            unit: 'pt',
+            format: 'a4',
+            orientation: 'portrait'
+        });
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const marginLeft = 40;
+        const marginRight = 40;
+        const marginTop = 50;
+        const marginBottom = 70; // footer spacing
+        const usableWidth = pageWidth - marginLeft - marginRight;
+        const usableHeight = pageHeight - marginTop - marginBottom;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(22);
+        doc.setTextColor('#1a365d');
+        doc.text(post.title, pageWidth / 2, marginTop, { align: 'center' });
+
+        let y = marginTop + 30;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(12);
+        doc.setTextColor('#212529');
+        
+        const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
+        const dynamicReadTime = Math.max(1, Math.round(wordCount / 200));
+        const metaLines = [
+            `Author: ${post.author} (${post.authorRole})`,
+            `Published: ${formatDate(post.publishDate)}`,
+            `Category: ${post.category}`,
+            `Read Time: ${dynamicReadTime} minutes`
+        ];
+        metaLines.forEach(line => {
+            doc.text(line, pageWidth / 2, y, { align: 'center' });
+            y += 18;
+        });
+        y += 10;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(13);
+        doc.setTextColor('#212529');
+        const paragraphs = post.content.split(/\n\n+/);
+        paragraphs.forEach(paragraph => {
+            const lines = doc.splitTextToSize(paragraph.replace(/\n/g, '\n'), usableWidth);
+            const dims = doc.getTextDimensions(lines);
+            if (y + dims.h > pageHeight - marginBottom) {
+                doc.addPage();
+                y = marginTop;
+            }
+            doc.text(lines, marginLeft, y, { align: 'left' });
+            y += dims.h + 10;
+        });
+
+        if (post.citations && post.citations.length > 0) {
+            if (y + 40 > pageHeight - marginBottom) {
+                doc.addPage();
+                y = marginTop;
+            }
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(15);
+            doc.setTextColor('#0d6efd');
+            doc.text('References & Sources', marginLeft, y);
+            y += 24;
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(12);
+            doc.setTextColor('#212529');
+            post.citations.forEach((citation, idx) => {
+                let citeText = '';
+                if (typeof citation === 'string') {
+                    citeText = `${idx + 1}. ${citation}`;
+                } else if (typeof citation === 'object') {
+                    if (citation.authors) {
+                        citeText += `${Array.isArray(citation.authors) ? citation.authors.join(', ') : citation.authors}. `;
+                    }
+                    if (citation.title) {
+                        citeText += `"${citation.title}". `;
+                    }
+                    if (citation.publication) {
+                        citeText += `${citation.publication}`;
+                        if (citation.year) {
+                            citeText += ` (${citation.year})`;
+                        }
+                        citeText += '. ';
+                    }
+                    if (citation.doi) {
+                        citeText += `DOI: ${citation.doi}. `;
+                    }
+                    if (citation.url && !citation.title) {
+                        citeText += `Available at: ${citation.url}. `;
+                    }
+                    if (citation.accessDate) {
+                        citeText += `[Enacted: ${formatDate(citation.accessDate)}]`;
+                    }
+                }
+                const citeLines = doc.splitTextToSize(citeText, usableWidth - 20);
+                const dims = doc.getTextDimensions(citeLines);
+                if (y + dims.h > pageHeight - marginBottom) {
+                    doc.addPage();
+                    y = marginTop;
+                }
+                doc.text(citeLines, marginLeft + 10, y);
+                y += dims.h + 8;
+            });
+        }
+
+        const footerText = '© 2025 Orbital Conservation Institute';
+        const addFooter = (doc) => {
+            const pageCount = doc.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor('#888');
+                doc.text(footerText, pageWidth / 2, pageHeight - 35, { align: 'center' });
+            }
+        };
+        addFooter(doc);
+        doc.save(filename);
+    }
 }
 
 function formatCitation(citation, number) {
-    // Handle different citation formats
     if (typeof citation === 'string') {
-        // Simple string citation
         return `
                         <li class="citation-item">
                             <span class="citation-number">${number}</span>
@@ -466,14 +632,12 @@ function formatCitation(citation, number) {
                         </li>
                     `;
     } else if (typeof citation === 'object') {
-        // Structured citation object
         let citationHtml = `
                         <li class="citation-item">
                             <span class="citation-number">${number}</span>
                             <span class="citation-content">
                     `;
 
-        // Add author(s)
         if (citation.authors) {
             if (Array.isArray(citation.authors)) {
                 citationHtml += `<strong>${citation.authors.join(', ')}</strong>. `;
@@ -482,7 +646,6 @@ function formatCitation(citation, number) {
             }
         }
 
-        // Add title
         if (citation.title) {
             if (citation.url) {
                 citationHtml += `<a href="${citation.url}" class="citation-link" target="_blank" rel="noopener">"${citation.title}"</a>. `;
@@ -491,7 +654,6 @@ function formatCitation(citation, number) {
             }
         }
 
-        // Add publication/source
         if (citation.publication) {
             citationHtml += `<em>${citation.publication}</em>`;
             if (citation.year) {
@@ -500,17 +662,14 @@ function formatCitation(citation, number) {
             citationHtml += '. ';
         }
 
-        // Add DOI if available
         if (citation.doi) {
             citationHtml += `DOI: <a href="https://doi.org/${citation.doi}" class="citation-link" target="_blank" rel="noopener">${citation.doi}</a>. `;
         }
 
-        // Add URL if no title link was created
         if (citation.url && !citation.title) {
             citationHtml += `Available at: <a href="${citation.url}" class="citation-link" target="_blank" rel="noopener">${citation.url}</a>. `;
         }
 
-        // Add access date
         if (citation.accessDate) {
             citationHtml += `<br><span class="citation-access-date">[Enacted: ${formatDate(citation.accessDate)}]</span>`;
         }
@@ -523,7 +682,6 @@ function formatCitation(citation, number) {
         return citationHtml;
     }
 
-    // Fallback for unexpected format
     return `
                     <li class="citation-item">
                         <span class="citation-number">${number}</span>
@@ -536,7 +694,6 @@ function closeBlogModal() {
     document.getElementById('blogModal').classList.remove('active');
     document.body.style.overflow = 'auto';
 
-    // Return to articles section URL when closing modal
     if (window.location.hash.startsWith('#articles/')) {
         window.history.pushState(null, null, '#articles');
     }
@@ -591,7 +748,6 @@ function openCourseModalByIndex(index) {
 function openCourseModal(courseData) {
     let course;
 
-    // Handle both encoded string data (legacy) and direct object data (new)
     if (typeof courseData === 'string') {
         try {
             course = JSON.parse(decodeURIComponent(courseData));
@@ -615,7 +771,7 @@ function openCourseModal(courseData) {
     if (course.level) {
         metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-chart-line"></i> ${course.level}</span>`;
     }
-    // Add game-specific metadata
+    
     if (course.type === 'game') {
         if (course.platform) {
             metaInfo += `${metaInfo ? ' ' : ''}<span><i class="fas fa-desktop"></i> ${course.platform}</span>`;
@@ -657,7 +813,7 @@ function openCourseModal(courseData) {
                     ` : ''}
                 `;
 
-    const linkText = course.type === 'game' ? 'View Game' : 'Go to Course';
+    const linkText = course.type === 'game' ? 'View on Store' : 'Go to Course';
     let actionsHtml = `<a href="${course.link}" class="btn btn-primary" target="_blank" rel="noopener">
                     <i class="fas fa-external-link-alt" style="margin-right: 10px;"></i> ${linkText}
                 </a>`;
@@ -876,7 +1032,6 @@ function formatDate(dateString) {
     });
 }
 
-// Article sharing functions
 function copyArticleLink(articleSlug) {
     const url = `${window.location.origin}${window.location.pathname}#articles/${articleSlug}`;
     navigator.clipboard.writeText(url).then(() => {
@@ -889,7 +1044,6 @@ function copyArticleLink(articleSlug) {
         }
     }).catch(err => {
         console.error('Failed to copy link:', err);
-        // Fallback for older browsers
         const textArea = document.createElement('textarea');
         textArea.value = url;
         document.body.appendChild(textArea);
@@ -911,7 +1065,6 @@ function copyArticleLink(articleSlug) {
 }
 
 function shareOnTwitter(articleSlug) {
-    // Find article by slug first, then fallback to id
     let post = blogPosts.find(p => p.slug === articleSlug);
     if (!post) {
         post = blogPosts.find(p => p.id === articleSlug);
@@ -925,7 +1078,6 @@ function shareOnTwitter(articleSlug) {
 }
 
 function shareOnLinkedIn(articleSlug) {
-    // Find article by slug first, then fallback to id
     let post = blogPosts.find(p => p.slug === articleSlug);
     if (!post) {
         post = blogPosts.find(p => p.id === articleSlug);
@@ -994,6 +1146,5 @@ document.querySelectorAll('.blog-card, .about-card, .team-card, .stat-card').for
 });
 
 window.addEventListener('popstate', function (e) {
-    // Use handleRouteChange to properly handle article URLs
     handleRouteChange();
 });
