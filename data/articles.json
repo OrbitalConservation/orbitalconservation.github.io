@@ -135,12 +135,14 @@
           "authors": ["Cornell University"],
           "title": "Assessing and Minimizing Collisions in Satellite Mega-Constellations",
           "publication": "ARXIV",
+          "year": "2020",
           "url": "https://arxiv.org/abs/2002.00430"
         },
         {
           "authors": ["Cornell University"],
           "title": "The Low Earth Orbit Satellite Population and Impacts of the SpaceX Starlink Constellation",
           "publication": "ARXIV",
+          "year": "2020",
           "url": "https://arxiv.org/abs/2003.07446"
         }
       ]
