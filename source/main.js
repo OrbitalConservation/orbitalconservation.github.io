@@ -617,7 +617,8 @@ function displayArticleModal(post) {
             });
         }
 
-        const footerText = '© 2025 Orbital Conservation Institute';
+        const currentFullYear = new Date().getFullYear();
+        const footerText = `© ${currentFullYear} Orbital Conservation Institute`;
         const addFooter = (doc) => {
             const pageCount = doc.getNumberOfPages();
             for (let i = 1; i <= pageCount; i++) {
