@@ -312,7 +312,13 @@ function renderBlogPosts() {
         return;
     }
 
-    blogGrid.innerHTML = filteredPosts.map(post => {
+    const sortedPosts = [...filteredPosts].sort((a, b) => {
+        const idA = parseInt(a.id, 10) || 0;
+        const idB = parseInt(b.id, 10) || 0;
+        return idB - idA;
+    });
+
+    blogGrid.innerHTML = sortedPosts.map(post => {
         const slug = post.slug || post.id;
         const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
         const dynamicReadTime = Math.max(1, Math.round(wordCount / 200));
