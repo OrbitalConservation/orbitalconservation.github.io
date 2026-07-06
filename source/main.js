@@ -288,11 +288,21 @@ function updatePageTitle(sectionName) {
     document.title = titles[sectionName] || titles['home'];
 }
 
+function sortPostsByIdDescending(posts) {
+    return [...posts].sort((a, b) => {
+        const idA = Number.parseInt(a?.id, 10);
+        const idB = Number.parseInt(b?.id, 10);
+        const valueA = Number.isNaN(idA) ? Number.MIN_SAFE_INTEGER : idA;
+        const valueB = Number.isNaN(idB) ? Number.MIN_SAFE_INTEGER : idB;
+        return valueB - valueA;
+    });
+}
+
 async function loadBlogPosts() {
     try {
         const response = await fetch('https://orbitalconservation.github.io/data/articles.json');
         const data = await response.json();
-        blogPosts = data.posts || [];
+        blogPosts = sortPostsByIdDescending(data.posts || []);
         filteredPosts = [...blogPosts];
         renderBlogPosts();
     } catch (error) {
@@ -312,13 +322,7 @@ function renderBlogPosts() {
         return;
     }
 
-    const sortedPosts = [...filteredPosts].sort((a, b) => {
-        const idA = parseInt(a.id, 10) || 0;
-        const idB = parseInt(b.id, 10) || 0;
-        return idB - idA;
-    });
-
-    blogGrid.innerHTML = sortedPosts.map(post => {
+    blogGrid.innerHTML = filteredPosts.map(post => {
         const slug = post.slug || post.id;
         const wordCount = post.content ? post.content.trim().split(/\s+/).length : 0;
         const dynamicReadTime = Math.max(1, Math.round(wordCount / 200));
@@ -347,9 +351,9 @@ function renderBlogPosts() {
 function filterBlogPosts(category) {
     currentFilter = category;
     if (category === 'all') {
-        filteredPosts = [...blogPosts];
+        filteredPosts = sortPostsByIdDescending(blogPosts);
     } else {
-        filteredPosts = blogPosts.filter(post => post.category === category);
+        filteredPosts = sortPostsByIdDescending(blogPosts.filter(post => post.category === category));
     }
     renderBlogPosts();
 }
