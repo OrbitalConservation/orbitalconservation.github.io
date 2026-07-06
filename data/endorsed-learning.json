@@ -90,6 +90,19 @@
       "releaseDate": "2025-07-12",
       "genre": "Idle",
       "tags": ["Debris", "Risk", "Educational", "Simulation"]
+    },
+    {
+      "name": "NASA's Exoplanet Excursions",
+      "description": "Take VR journeys through the amazing TRAPPIST-1 system of exoplanets and to NASA’s Spitzer Space telescope, which played a key role in their discovery.",
+      "link": "https://store.steampowered.com/app/999880/NASAs_Exoplanet_Excursions/",
+      "type": "game",
+      "free": true,
+      "price": null,
+      "author": "NASA",
+      "platform": "Steam",
+      "releaseDate": "2018-08-28",
+      "genre": "Education",
+      "tags": ["Education", "VR", "Space"]
     }
   ]
 }
