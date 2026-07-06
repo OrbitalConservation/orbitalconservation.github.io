@@ -103,6 +103,19 @@
       "releaseDate": "2018-08-28",
       "genre": "Education",
       "tags": ["Education", "VR", "Space"]
+    },
+    {
+      "name": "Moonbase Alpha",
+      "description": "NASA has once again landed on the lunar surface with the goal of colonization, research, and further exploration. Shortly after the return to the Moon, NASA has established a small outpost on the south pole of the moon called Moonbase Alpha.",
+      "link": "https://store.steampowered.com/app/39000/Moonbase_Alpha/",
+      "type": "game",
+      "free": true,
+      "price": null,
+      "author": "NASA",
+      "platform": "Steam",
+      "releaseDate": "2010-07-06",
+      "genre": "Strategy",
+      "tags": ["Space", "Simulation", "Free to Play", "Multiplayer", "Funny"]
     }
   ]
 }
