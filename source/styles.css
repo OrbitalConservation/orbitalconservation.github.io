@@ -1089,6 +1089,18 @@ body {
     transform: translateX(4px);
 }
 
+a.website-by {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+a.website-by:hover {
+    opacity: 1;
+    transform: translateX(4px);
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 3rem;
