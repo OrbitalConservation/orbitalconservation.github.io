@@ -116,6 +116,32 @@
       "releaseDate": "2010-07-06",
       "genre": "Strategy",
       "tags": ["Space", "Simulation", "Free to Play", "Multiplayer", "Funny"]
+    },
+    {
+      "name": "To the Moon and Beyond",
+      "description": "In this single player card based game, you get to manage and build up your own space program. Your goal is to build all 8 mission critical objectives to safely send humans to the Moon and establish a permanent Moon habitat.",
+      "link": "https://www.xbox.com/en-GB/games/store/to-the-moon-and-beyond/9NT57N0G00Q9/0010",
+      "type": "game",
+      "free": true,
+      "price": null,
+      "author": "NASA",
+      "platform": "Xbox",
+      "releaseDate": "2022-06-06",
+      "genre": "Education",
+      "tags": ["Card and Board", "Educational", "Family and Kids"]
+    },
+    {
+      "name": "Space Science Investigations",
+      "description": "Welcome to the International Space Station! It’s your job to make sure the resupply H-II Transfer Vehicle (HTV) is successfully berthed to the International Space Station.",
+      "link": "https://www.xbox.com/en-GB/games/store/space-science-investigations/9PKW9CKH3TWK/0010",
+      "type": "game",
+      "free": true,
+      "price": null,
+      "author": "NASA",
+      "platform": "Xbox",
+      "releaseDate": "2022-09-02",
+      "genre": "Education",
+      "tags": ["Family and Kids", "Educational", "Simulation"]
     }
   ]
 }
