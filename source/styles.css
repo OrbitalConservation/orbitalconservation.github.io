@@ -928,7 +928,7 @@ body {
 
 .form-input,
 .form-textarea {
-    width: -webkit-fill-available;
+    width: 100%;
     padding: 1rem;
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
