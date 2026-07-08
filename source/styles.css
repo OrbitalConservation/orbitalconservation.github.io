@@ -1173,15 +1173,15 @@ a.website-by:hover {
     }
 
     .software-card-a {
-        margin: 0px 1rem 2rem 1rem;
+        margin: 0px 2rem 2rem 2rem;
     }
 
     .software-card-b {
-        padding: 0 1rem 0 1rem;
+        padding: 0 2rem 0 2rem;
     }
 
     .release-notes {
-        margin: 0px 1rem 2rem 1rem;
+        margin: 0px 2rem 2rem 2rem;
     }
 
     .software-info {
@@ -1190,9 +1190,8 @@ a.website-by:hover {
     }
 
     .software-info img {
-        height: auto; 
-        width: 203px; 
-        margin: 0px -20px;
+        height: auto;
+        width: -webkit-fill-available;
     }
 
     .dev-tag {
@@ -1216,6 +1215,7 @@ a.website-by:hover {
 
     .blog-grid {
         grid-template-columns: 1fr;
+        padding: 0 2rem 2rem;
     }
 
     .stats {
@@ -1294,15 +1294,15 @@ a.website-by:hover {
     }
 
     .software-card-a {
-        margin: 0px 1rem 2rem 1rem;
+        margin: 0px 2rem 2rem 2rem;
     }
 
     .software-card-b {
-        padding: 0 1rem 0 1rem;
+        padding: 0 2rem 0 2rem;
     }
 
     .release-notes {
-        margin: 0px 1rem 2rem 1rem;
+        margin: 0px 2rem 2rem 2rem;
     }
 
     .software-info {
@@ -1311,9 +1311,8 @@ a.website-by:hover {
     }
 
     .software-info img {
-        height: auto; 
-        width: 203px; 
-        margin: 0px -20px;
+        height: auto;
+        width: -webkit-fill-available;
     }
 
     .dev-tag {
@@ -1327,6 +1326,7 @@ a.website-by:hover {
 
     .blog-filters {
         gap: 0.25rem;
+        padding: 0 2rem;
     }
 
     .filter-btn {
