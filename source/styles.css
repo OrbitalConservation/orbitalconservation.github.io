@@ -1089,6 +1089,36 @@ body {
     transform: translateX(4px);
 }
 
+.software-info {
+    display: inline-flex;
+}
+
+.software-info img {
+    height: auto; 
+    width: 203px; 
+    margin: -20px 0px -20px -20px;
+}
+
+a.repo-tag {
+    display: inline-block;
+    text-decoration: none;
+    background: #404041;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--border-radius-xl);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+a.repo-tag:hover {
+    background: #0d1117;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
 a.website-by {
     color: white;
     text-decoration: none;
@@ -1147,6 +1177,25 @@ a.website-by:hover {
 
     .hero p {
         font-size: 1.1rem;
+    }
+
+    .software-info {
+        display: block;
+        text-align: center;
+    }
+
+    .software-info img {
+        height: auto; 
+        width: 203px; 
+        margin: 0px -20px;
+    }
+
+    .dev-tag {
+        margin: auto;
+    }
+
+    .repo-tag {
+        margin: auto;
     }
 
     .contact-grid {
@@ -1227,6 +1276,25 @@ a.website-by:hover {
     .stats {
         grid-template-columns: 1fr;
         padding: 2rem 1rem;
+    }
+
+    .software-info {
+        display: block;
+        text-align: center;
+    }
+
+    .software-info img {
+        height: auto; 
+        width: 203px; 
+        margin: 0px -20px;
+    }
+
+    .dev-tag {
+        margin: auto;
+    }
+
+    .repo-tag {
+        margin: auto;
     }
 
     .blog-filters {

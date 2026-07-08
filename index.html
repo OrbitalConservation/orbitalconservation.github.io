@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="https://orbitalconservation.github.io/source/styles.css">
+        <link rel="stylesheet" href="source/styles.css">
         <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
         <title>OCI | Orbital Conservation Institute</title>
     </head>
@@ -24,6 +24,7 @@
                     <a href="#articles" class="nav-link">Articles</a>
                     <a href="#insight" class="nav-link">Insight</a>
                     <a href="#team" class="nav-link">Team</a>
+                    <a href="#software" class="nav-link">Software</a>
                     <a href="#contact" class="nav-link">Contact</a>
                 </nav>
                 <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
@@ -615,6 +616,100 @@
                 </div>
             </section>
 
+            <!-- Software Page -->
+            <section id="software" class="content-section">
+                <h2 class="section-title">Our Software</h2>
+                <p class="section-subtitle">
+                    A preview area for OCI tools, prototypes, and free software projects. Stay tuned to this page to see our latest developments and updates.
+                </p>
+
+                <div style="background: white; padding: 3rem 2rem; margin-bottom: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow);">
+                    <div class="container">
+                        <div class="software-info">
+                            <img src="source/images/oci_sentinel.png" />
+                            <p style="color: var(--text-light); max-width: 900px; line-height: 1.7;">
+                                Sentinel is the Orbital Conservation Institute's flagship desktop application for monitoring and visualising Earth's orbital environment. Developed in partnership with Oakshift Software, Sentinel provides live tracking of publicly available orbital debris and artificial objects, interactive visualisations, historical data collection, and trajectory analysis to help users better understand the growing challenges facing near-Earth space. Designed for researchers, educators, students and enthusiasts alike, Sentinel supports OCI's mission to promote orbital sustainability through accessible tools, open data and greater public awareness of the environment beyond our atmosphere.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem;">
+                            <!--
+                            <span class="tag" style="background: #475569;">Planning</span>
+                            -->
+                            <span class="tag dev-tag" style="background: var(--warning-color);">Beta Released</span>
+                            <!--
+                            <span class="tag" style="background: var(--accent-color);">In Development</span>
+                            <span class="tag" style="background: var(--success-color);">Released</span>
+                            -->
+                            <a class="tag repo-tag" href="https://github.com/OrbitalConservation/OCISentinel" target="_blank"><i class="fa-brands fa-github" style="margin-right: 5px; font-size: 12px;"></i> GitHub Repository</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                    <article class="about-card" style="background: white; box-shadow: var(--shadow); border-radius: var(--border-radius-lg); padding: 2rem;">
+                        <div class="about-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <h4 style="margin-bottom: 0.5rem;">Debris Portal</h4>
+                        <p style="color: var(--text-light); margin-bottom: 1rem;">An interactive web dashboard displaying orbital debris, conjunction alerts, debris density heatmaps, and possible mission risk snapshots.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-lighter);"><span class="tag dev-tag" style="background: #475569;">Planned</span></p>
+                    </article>
+
+                    <article class="about-card" style="background: white; box-shadow: var(--shadow); border-radius: var(--border-radius-lg); padding: 2rem;">
+                        <div class="about-icon"><i class="fas fa-code-branch"></i></div>
+                        <h4 style="margin-bottom: 0.5rem;">Policy Creator</h4>
+                        <p style="color: var(--text-light); margin-bottom: 1rem;">A web interface for creating policies surrounding disposal windows, licensing rules, and launch cadence to aid long-term orbital sustainability.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-lighter);"><span class="tag dev-tag" style="background: #475569;">Planned</span></p>
+                    </article>
+
+                    <article class="about-card" style="background: white; box-shadow: var(--shadow); border-radius: var(--border-radius-lg); padding: 2rem;">
+                        <div class="about-icon"><i class="fas fa-book"></i></div>
+                        <h4 style="margin-bottom: 0.5rem;">E-Learning Plattform</h4>
+                        <p style="color: var(--text-light); margin-bottom: 1rem;">An online platform offering educational resources, courses, and learning experiences focused on orbital conservation and space sustainability.</p>
+                        <p style="font-size: 0.9rem; color: var(--text-lighter);"><span class="tag dev-tag" style="background: #475569;">Planned</span></p>
+                    </article>
+                </div>
+
+                <div style="background: var(--bg-light); padding: 2rem; border-radius: var(--border-radius-lg); margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Recent Release Notes</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">
+                        The below show the most recent release notes for our software.
+                    </p>
+                    <div style="background: white; border: 1px solid var(--border-light); border-radius: var(--border-radius); padding: 1rem;">
+                        <p style="margin-bottom: 0.4rem;"><strong>Software:</strong> Sentinel</p>
+                        <p style="margin-bottom: 0.4rem;"><strong>Version:</strong> v1.1.1</p>
+                        <p style="margin-bottom: 0.4rem;"><strong>Release Date:</strong> 08/07/2026</p>
+                        <p style="margin-bottom: 0.4rem;">
+                            <strong>Highlights:</strong> Add bullet points here.
+                            <ul style="margin-left: 1.5rem; margin-bottom: 0.5rem;">
+                                <li>Built-in CelesTrak Integration: The software now includes built-in integration with CelesTrak for easier access to satellite data.</li>
+                                <li>Improved User Interface: The user interface has been updated for a more intuitive and seamless experience.</li>
+                                <li>Loading Dialogues: Loading dialogues have been added to provide feedback and tracking during particularly large data processing tasks.</li>
+                            </ul>
+                        </p>
+                        <p style="margin-bottom: 0;">
+                            <strong>Known Issues:</strong>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>TLE Visualisation Rendering: There s currently an issue where the visualisation of <i>some</i> TLE data may not render correctly under certain conditions.</li>
+                                <li>Database Record Deleting: There is an issue where deleting records from the database currently forces the application to crash.</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="join-cta"
+                    style="background: var(--gradient-space); color: white; padding: 3rem 2rem; border-radius: var(--border-radius-lg); text-align: center;">
+                    <div class="container">
+                        <h3 style="font-size: 1.9rem; margin-bottom: 1rem;">Software Feedback Wanted</h3>
+                        <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto 2rem; opacity: 0.9; line-height: 1.6;">
+                            This section is intentionally editable dummy content so you can iterate quickly before a manual commit.
+                        </p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <a href="#contact" class="btn btn-secondary" style="background: white; color: var(--primary-color);">Share Feedback</a>
+                            <a href="#articles" class="btn btn-primary" style="border: 2px solid white;">Read Related Articles</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Contact Page -->
             <section id="contact" class="content-section">
                 <h2 class="section-title">Contact Us</h2>
@@ -889,6 +984,6 @@
                 </p>
             </div>
         </footer>
-        <script src="https://orbitalconservation.github.io/source/main.js"></script>
+        <script src="source/main.js"></script>
     </body>
 </html>
