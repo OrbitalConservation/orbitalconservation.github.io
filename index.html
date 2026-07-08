@@ -439,7 +439,7 @@
                 </p>
 
                 <div class="software-card-a">
-                    <div class="container">
+                    <div class="container utc-container">
                         <div class="software-info">
                             <img src="source/images/oci_sentinel.png" />
                             <p style="color: var(--text-light); max-width: 900px; line-height: 1.7;">
@@ -532,7 +532,7 @@
                 </p>
 
                 <div class="contact-hero" style="background: var(--gradient-space);opacity: 0.75;color: white;padding: 3rem 2rem;text-align: center;">
-                    <div class="container">
+                    <div class="container utc-container">
                         <h3 style="font-size: 1.8rem; margin-bottom: 1rem;">Let's Work Together</h3>
                         <p style="font-size: 1.1rem; max-width: 600px; margin: 0 auto; opacity: 0.9; line-height: 1.6;">
                             Whether you're a researcher, policymaker, student, or space enthusiast, we welcome collaboration and dialogue on space sustainability challenges.
@@ -540,8 +540,8 @@
                     </div>
                 </div>
 
-                <div class="contact-options" style="background: var(--bg-light); padding: 3rem 2rem; margin-bottom: 3rem;">
-                    <div class="container">
+                <div class="contact-options" style="background: var(--bg-light); padding: 2rem; margin-bottom: 3rem;">
+                    <div class="container utc-container">
                         <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-color); font-size: 1.6rem;">
                             How We Can Help
                         </h3>
@@ -574,9 +574,7 @@
                 <div class="contact-grid">
                     <div class="contact-form">
                         <h3>Send us a message</h3>
-                        <div id="contactFormStatus" class="form-status"
-                            style="display: none; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; font-weight: 600;">
-                        </div>
+                        <div id="contactFormStatus" class="form-status" style="display: none; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem; font-weight: 600;"></div>
                         <form id="contactForm">
                             <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                 <div class="form-group">
@@ -607,17 +605,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="message">Message *</label>
-                                <textarea id="message" name="message" class="form-textarea" required
-                                    placeholder="Tell us about your project, question, or how you'd like to collaborate..."></textarea>
+                                <textarea id="message" name="message" class="form-textarea" required placeholder="Tell us about your project, question, or how you'd like to collaborate..."></textarea>
                             </div>
                             <div class="form-group">
                                 <div style="display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 1.5rem;">
-                                    <input type="checkbox" id="consent" name="consent" required
-                                        style="margin-top: 0.25rem;">
-                                    <label for="consent"
-                                        style="font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">
-                                        I consent to OCI storing and processing my personal data to respond to this inquiry.
-                                        *
+                                    <input type="checkbox" id="consent" name="consent" required style="margin-top: 0.25rem;">
+                                    <label for="consent" style="font-size: 0.9rem; color: var(--text-light); line-height: 1.5;">
+                                        I consent to OCI storing and processing my personal data to respond to this inquiry. *
                                     </label>
                                 </div>
                             </div>
@@ -675,37 +669,34 @@
                     </div>
                 </div>
 
-                <div class="contact-faq" style="background: white;padding: 3rem 2rem;margin-top: 3rem;box-shadow: var(--shadow);">
+                <div class="contact-faq" style="background: white; padding: 2rem; margin-top: 3rem; box-shadow: var(--shadow);">
                     <div class="container">
-                        <h3
-                            style="text-align: center; margin-bottom: 2rem; color: var(--primary-color); font-size: 1.6rem;">
-                            Frequently Asked Questions</h3>
+                        <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary-color); font-size: 1.6rem;">
+                            Frequently Asked Questions
+                        </h3>
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
                             <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius);">
-                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">How can I collaborate with
-                                    OCI?</h4>
-                                <p style="color: var(--text-light); font-size: 0.9rem; margin: 0; line-height: 1.5;">
-                                    We welcome the opportunity for collaborations through research partnerships, educational
-                                    initiatives, policy development, and public outreach. Contact us today to discuss
-                                    available opportunities.
-                                </p>
-                            </div>
-                            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius);">
-                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Do you offer consulting
-                                    services?</h4>
-                                <p style="color: var(--text-light); font-size: 0.9rem; margin: 0; line-height: 1.5;">
-                                    Yes, we look to provide consulting on space sustainability, debris mitigation, and
-                                    policy development. All are welcomed to reach out to discuss your specific needs, and
-                                    see how we can help.
-                                </p>
-                            </div>
-                            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius);">
-                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Can students get involved?
+                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">
+                                    How can I collaborate with OCI?
                                 </h4>
                                 <p style="color: var(--text-light); font-size: 0.9rem; margin: 0; line-height: 1.5;">
-                                    Absolutely! We aim to offer research opportunities and internships in the near future,
-                                    and are always looking to collaborate on educational resources for students at all
-                                    levels interested in space sustainability.
+                                    We welcome the opportunity for collaborations through research partnerships, educational initiatives, policy development, and public outreach. Contact us today to discuss available opportunities.
+                                </p>
+                            </div>
+                            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius);">
+                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">
+                                    Do you offer consulting services?
+                                </h4>
+                                <p style="color: var(--text-light); font-size: 0.9rem; margin: 0; line-height: 1.5;">
+                                    Yes, we look to provide consulting on space sustainability, debris mitigation, and policy development. All are welcomed to reach out to discuss your specific needs, and see how we can help.
+                                </p>
+                            </div>
+                            <div style="background: var(--bg-light); padding: 1.5rem; border-radius: var(--border-radius);">
+                                <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">
+                                    Can students get involved?
+                                </h4>
+                                <p style="color: var(--text-light); font-size: 0.9rem; margin: 0; line-height: 1.5;">
+                                    Absolutely! We aim to offer research opportunities and internships in the near future, and are always looking to collaborate on educational resources for students at all levels interested in space sustainability.
                                 </p>
                             </div>
                         </div>
