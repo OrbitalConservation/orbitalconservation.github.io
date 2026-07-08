@@ -130,6 +130,27 @@ body {
     cursor: pointer;
 }
 
+.home-hero-h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.home-hero-p {
+    font-size: 1.4rem; 
+    margin-bottom: 2.5rem; 
+    max-width: 800px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); 
+    line-height: 1.6;
+}
+
+.hero-content .cta-buttons {
+    margin-bottom: 4rem;
+}
+
 @media (max-width: 768px) {
     .nav {
         display: none;
@@ -1033,6 +1054,29 @@ body {
     transform: translateX(4px);
 }
 
+.software-card-a {
+    background: white; 
+    padding: 3rem 2rem; 
+    margin: 0px 4rem 2rem 4rem; 
+    border-radius: var(--border-radius-lg); 
+    box-shadow: var(--shadow);
+}
+
+.software-card-b {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 2rem; 
+    margin-bottom: 2rem; 
+    padding: 0 4rem 0 4rem;
+}
+
+.release-notes {
+    background: var(--bg-light); 
+    padding: 2rem; 
+    border-radius: var(--border-radius-lg); 
+    margin: 0px 4rem 2rem 4rem;
+}
+
 .software-info {
     display: inline-flex;
 }
@@ -1123,6 +1167,23 @@ a.website-by:hover {
         font-size: 1.1rem;
     }
 
+    .section-subtitle, .section-title {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .software-card-a {
+        margin: 0px 1rem 2rem 1rem;
+    }
+
+    .software-card-b {
+        padding: 0 1rem 0 1rem;
+    }
+
+    .release-notes {
+        margin: 0px 1rem 2rem 1rem;
+    }
+
     .software-info {
         display: block;
         text-align: center;
@@ -1140,6 +1201,7 @@ a.website-by:hover {
 
     .repo-tag {
         margin: auto;
+        text-align: center;
     }
 
     .contact-grid {
@@ -1176,7 +1238,7 @@ a.website-by:hover {
     .technology-section,
     .research-section,
     .learning-section {
-        padding: 3rem 1rem;
+        padding: 0rem;
     }
 
     .contact-form,
@@ -1221,6 +1283,23 @@ a.website-by:hover {
         padding: 2rem 1rem;
     }
 
+    .section-subtitle, .section-title {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .software-card-a {
+        margin: 0px 1rem 2rem 1rem;
+    }
+
+    .software-card-b {
+        padding: 0 1rem 0 1rem;
+    }
+
+    .release-notes {
+        margin: 0px 1rem 2rem 1rem;
+    }
+
     .software-info {
         display: block;
         text-align: center;
@@ -1238,6 +1317,7 @@ a.website-by:hover {
 
     .repo-tag {
         margin: auto;
+        text-align: center;
     }
 
     .blog-filters {
