@@ -1225,6 +1225,11 @@ a.website-by:hover {
 
     .about-grid {
         grid-template-columns: 1fr;
+        padding: 0rem;
+    }
+
+    .utc-container {
+        padding: 0rem;
     }
 
     .section-title {
