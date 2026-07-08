@@ -845,7 +845,7 @@ body {
 
 .about-card {
     background: white;
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow);
     text-align: center;
