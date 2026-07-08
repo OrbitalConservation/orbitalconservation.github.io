@@ -246,7 +246,7 @@ function setupEventListeners() {
         document.getElementById('nav').classList.remove('open');
     });
 } function showSection(sectionName) {
-    const validSections = ['home', 'about', 'articles', 'insight', 'team', 'software', 'contact'];
+    const validSections = ['home', 'about', 'articles', 'insight', 'software', 'contact'];
     if (!validSections.includes(sectionName)) {
         sectionName = 'home';
         window.location.hash = 'home';
@@ -282,7 +282,6 @@ function updatePageTitle(sectionName) {
         'about': 'OCI | About',
         'articles': 'OCI | Articles',
         'insight': 'OCI | Insight',
-        'team': 'OCI | Our Team',
         'software': 'OCI | Our Software',
         'contact': 'OCI | Contact Us'
     };
@@ -1103,7 +1102,7 @@ function shareOnLinkedIn(articleSlug) {
     window.open(linkedInUrl, '_blank');
 }
 
-document.querySelectorAll('a[href^="#"]:not([href="#home"]):not([href="#about"]):not([href="#articles"]):not([href="#insight"]):not([href="#team"]):not([href="#software"]):not([href="#contact"])').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]:not([href="#home"]):not([href="#about"]):not([href="#articles"]):not([href="#insight"]):not([href="#software"]):not([href="#contact"])').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
@@ -1124,7 +1123,7 @@ document.addEventListener('keydown', function (e) {
     }
 
     if (e.altKey) {
-        const sections = ['home', 'about', 'articles', 'insight', 'team', 'software', 'contact'];
+        const sections = ['home', 'about', 'articles', 'insight', 'software', 'contact'];
         const currentSection = window.location.hash.slice(1) || 'home';
         const currentIndex = sections.indexOf(currentSection);
 
@@ -1150,7 +1149,7 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-document.querySelectorAll('.blog-card, .about-card, .team-card, .stat-card').forEach(card => {
+document.querySelectorAll('.blog-card, .about-card, .stat-card').forEach(card => {
     card.style.opacity = '0';
     card.style.transform = 'translateY(20px)';
     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
