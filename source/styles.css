@@ -1056,7 +1056,7 @@ body {
 
 .software-card-a {
     background: white; 
-    padding: 3rem 2rem; 
+    padding: 2rem; 
     margin: 0px 4rem 2rem 4rem; 
     border-radius: var(--border-radius-lg); 
     box-shadow: var(--shadow);
@@ -1192,6 +1192,7 @@ a.website-by:hover {
     .software-info img {
         height: auto;
         width: -webkit-fill-available;
+        margin: 0 0 0.5rem 0;
     }
 
     .dev-tag {
@@ -1313,6 +1314,7 @@ a.website-by:hover {
     .software-info img {
         height: auto;
         width: -webkit-fill-available;
+        margin: 0 0 0.5rem 0;
     }
 
     .dev-tag {
