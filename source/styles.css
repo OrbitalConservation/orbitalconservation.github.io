@@ -900,6 +900,12 @@ body {
     font-weight: 700;
 }
 
+.contact-faq {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 2rem;
+}
+
 .form-group {
     margin-bottom: 2rem;
 }
@@ -1208,6 +1214,10 @@ a.website-by:hover {
         grid-template-columns: 1fr;
         gap: 2rem;
         padding: 2rem;
+    }
+
+    .contact-faq {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 
     .form-row {
