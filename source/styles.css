@@ -922,7 +922,7 @@ body {
 
 .form-input,
 .form-textarea {
-    width: 100%;
+    width: -webkit-fill-available;
     padding: 1rem;
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
