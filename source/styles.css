@@ -1252,7 +1252,7 @@ a.website-by:hover {
     }
 
     .footer {
-        padding: 3rem 1rem 2rem;
+        padding: 3rem 2rem 2rem;
     }
 
     .btn {
@@ -1289,8 +1289,8 @@ a.website-by:hover {
     }
 
     .section-subtitle, .section-title {
-        margin-left: 1rem;
-        margin-right: 1rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
     }
 
     .software-card-a {
