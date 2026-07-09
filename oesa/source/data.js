@@ -17,6 +17,7 @@ const OESA_DATA = {
 			body: 'No spacecraft should be serviced or recovered without explicit owner or state authorisation.'
 		}
 	],
+    
 	architecture: [
 		{
 			title: 'Orbital Service Stations (OSS)',
@@ -173,6 +174,7 @@ const OESA_DATA = {
                         <li>International governance mechanisms</li>
                         <li>Orbital Environmental Credits</li>
                         <li>Open engineering research programmes</li>
+                        <li>Orbital Sustainability Rating (OSR)</li>
                     </ul>
                     <sep></sep>
                     Together, these elements establish a permanent ecosystem supporting the long-term sustainability of Earth's orbital environment.
