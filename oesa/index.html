@@ -6,11 +6,144 @@
 
         <link rel="shortcut icon" href="https://oci-development.github.io/images/oci-icon-t-white.png" type="image/png">
         <link rel="stylesheet" href="source/styles.css">
-        <title>OESA</title>
+        <title>OCI | OESA</title>
     </head>
     <body>
-        Coming Soon
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="#home">
+                        <img src="https://oci-development.github.io/images/oci-logo-t-white.png" alt="Orbital Conservation Institute logo">
+                    </a>
+                </div>
+                <nav class="nav" id="nav">
+                    <a href="#home" class="nav-link active">Home</a>
+                    <a href="#architecture" class="nav-link">Architecture</a>
+                    <a href="#papers" class="nav-link">Papers</a>
+                    <a href="#roadmap" class="nav-link">Roadmap</a>
+                    <a href="#related" class="nav-link">Related</a>
+                </nav>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
+            </div>
+        </header>
+
+        <main class="main">
+            <section id="home" class="content-section active">
+                <div class="hero">
+                    <div class="hero-overlay"></div>
+                    <div class="hero-content container">
+                        <span class="eyebrow">Orbital Conservation Institute White Paper Programme</span>
+                        <h1>Orbital Environmental and Sustainability Architecture</h1>
+                        <p>
+                            Building a circular orbital economy through internationally governed orbital service
+                            infrastructure, autonomous maintenance systems, and open engineering standards.
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="#architecture" class="btn btn-primary">Explore OESA</a>
+                            <a href="#papers/wp1" class="btn btn-secondary">Read White Paper 1</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats container">
+                    <article class="stat-card">
+                        <span class="stat-number">WP-1</span>
+                        <div class="stat-label">Published Foundation Paper</div>
+                    </article>
+                    <article class="stat-card">
+                        <span class="stat-number">4</span>
+                        <div class="stat-label">Follow-up Papers Announced</div>
+                    </article>
+                    <article class="stat-card">
+                        <span class="stat-number">10</span>
+                        <div class="stat-label">Core Architecture Elements</div>
+                    </article>
+                    <article class="stat-card">
+                        <span class="stat-number">1</span>
+                        <div class="stat-label">Shared Orbital Stewardship Vision</div>
+                    </article>
+                </div>
+
+                <div class="overview container">
+                    <h2>Why OESA Exists</h2>
+                    <p>
+                        OESA proposes a transition from disposable satellites to maintainable orbital infrastructure.
+                        It treats Earth orbit as a shared environment requiring ongoing service capability rather than
+                        occasional intervention.
+                    </p>
+                    <div class="overview-grid" id="principlesGrid"></div>
+                </div>
+            </section>
+
+            <section id="architecture" class="content-section">
+                <div class="section-shell container">
+                    <h2 class="section-title">Architecture Overview</h2>
+                    <p class="section-subtitle">
+                        The Orbital Environmental and Sustainability Architecture is designed as a permanent ecosystem,
+                        not a single mission.
+                    </p>
+                    <div class="architecture-grid" id="architectureGrid"></div>
+                </div>
+            </section>
+
+            <section id="papers" class="content-section">
+                <div class="section-shell container">
+                    <h2 class="section-title">White Papers</h2>
+                    <p class="section-subtitle">
+                        Track published, follow-up and planned papers within the OESA development programme.
+                    </p>
+
+                    <div class="papers-layout">
+                        <div class="paper-list" id="paperList"></div>
+                        <article class="paper-viewer" id="paperViewer">
+                            <h3>Select a paper</h3>
+                            <p>Choose any paper from the list to open its abstract, scope and status.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="roadmap" class="content-section">
+                <div class="section-shell container">
+                    <h2 class="section-title">Development Roadmap</h2>
+                    <p class="section-subtitle">
+                        OESA is intended to mature through open discussion, engineering definition and international cooperation.
+                    </p>
+                    <div class="timeline" id="timeline"></div>
+                </div>
+            </section>
+
+            <section id="related" class="content-section">
+                <div class="section-shell container">
+                    <h2 class="section-title">Related Reading</h2>
+                    <p class="section-subtitle">
+                        Supporting and adjacent topics linked to the Orbital Conservation Institute research direction.
+                    </p>
+                    <div class="related-grid" id="relatedGrid"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content container">
+                <div>
+                    <h3>Orbital Conservation Institute</h3>
+                    <p>Orbital Environmental and Sustainability Architecture Programme</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#architecture">Architecture</a>
+                    <a href="#papers">Papers</a>
+                    <a href="#roadmap">Roadmap</a>
+                    <a href="#related">Related</a>
+                </div>
+            </div>
+            <p class="footer-bottom">
+                Copyright <span id="year"></span> Orbital Conservation Institute.
+            </p>
+        </footer>
+
+        <script src="source/data.js"></script>
+        <script src="source/main.js"></script>
     </body>
-    
-    <script src="source/main.js"></script>
 </html>
