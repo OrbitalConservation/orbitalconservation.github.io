@@ -49,6 +49,20 @@
       "tags": ["Educational"]
     },
     {
+      "name": "How We’re Building Machines to Remove Space Junk",
+      "description": "Orbital debris is the stuff of nightmares for astronauts. And with good reason – the amount of rubbish circling the Earth has risen exponentially over the last twenty years as space exploration has grown and increasing numbers of satellites are launched.",
+      "link": "https://www.youtube.com/watch?v=1zcx504QzGw",
+      "type": "youtube",
+      "free": true,
+      "price": null,
+      "author": "Pure Engine",
+      "uploadDate": "2025-08-16",
+      "duration": "56:25",
+      "tags": ["Educational"]
+    },
+
+
+    {
       "name": "Space Safety",
       "description": "How can we prevent satellites from colliding? How can satellites be protected from meteorite impacts? How important are satellites in today’s age? How safe are astronauts on the ISS and why does their research help mankind in general? What happens with space debris distributed in orbit?\n\nIn the online course “Space Safety”, the astronaut Dr Thomas Reiter, experts from the European Space Agency (ESA) and other research institutions address the subject matter, presenting possible future scenarios for space applications.\n\nThe individual course units cover an array of topics, such as space weather, space debris, collision avoidance, cyber security and space medicine.",
       "link": "https://www.coursera.org/learn/spacesafety",
@@ -78,6 +92,8 @@
       "author": "Technical University of Munich",
       "tags": ["Intermediate", "Innovation", "Research", "Strategy"]
     },
+
+
     {
       "name": "Orbital Debris Cleanup",
       "description": "Clean up dangerous space debris in this educational idle game! Click to collect debris, purchase upgrades, and prevent Kessler Syndrome from making space inaccessible. Features prestige progression, achievements, and raises awareness about real space sustainability challenges.",
