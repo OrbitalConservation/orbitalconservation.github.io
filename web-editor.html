@@ -102,22 +102,8 @@
                 }
             }
 
-            function readJsonFile(file_path) {
-                try {
-                    let response = fetch(file_path);
-                    if (!response.ok) throw new Error('File could not be found');
-                    const data = response.json();
-                    return data;
-                } catch (error) {
-                    return null;
-                }
-            }
-
             const ghwe_data = loadGhweFile();
             console.log(ghwe_data);
-
-            const ghwe_data_2 = readJsonFile(config_ghwe);
-            console.log(ghwe_data_2);
 
 
             // Hash-routed Navigation
