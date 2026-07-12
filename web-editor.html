@@ -22,7 +22,7 @@
         </style>
     </head>
     <body>
-        <!-- HTML Section - Header -->
+        <!-- HTML Section (Header) -->
         <header>
             <div class="brand">
                 <img src="" class="brand-logo" />
@@ -35,10 +35,25 @@
             </div>
         </header>
 
-        <!-- HTML Section - Main -->
-        <main></main>
+        <!-- HTML Section (Main) -->
+        <main>
+            <!-- Home Page -->
+            <page-tag class="home" id="home">
+                <h2>Welcome to GitHub WebEditor</h2>
+            </page-tag>
 
-        <!-- HTML Section - Footer -->
+            <!-- Editor Page -->
+            <page-tag class="editor" id="editor">
+                <h2>Editor</h2>
+            </page-tag>
+
+            <!-- About Page -->
+            <page-tag class="about" id="about">
+                <h2>About</h2>
+            </page-tag>
+        </main>
+
+        <!-- HTML Section (Footer) -->
         <footer>
             <p>
                 &copy; <script>document.write(new Date().getFullYear());</script> GitHub WebEditor. All rights reserved.
@@ -53,11 +68,10 @@
                 "ghwe_config.json", 
                 "ghwe_log.json"
             ];
+
             const config_ghwe = String(requiredFiles[0]);
             const log_ghwe = String(requiredFiles[1]);
 
-
-            // 
             async function loadGhweFile() {
                 let _file_path = `./${config_ghwe}`;
                 try {
@@ -72,6 +86,14 @@
                 }
             }
             loadGhweFile();
+
+
+            // Hash-routed Navigation
+            const pages_list = [
+                ["home", "Home"], 
+                ["editor", "Editor"], 
+                ["about", "About"]
+            ];
         </script>
     </body>
 </html>
