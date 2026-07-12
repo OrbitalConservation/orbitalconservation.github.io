@@ -95,13 +95,17 @@
                     if (!_response.ok) throw new Error('File could not be found');
                     const data = await _response.json();
                     // Success
-                    console.log(data);
+                    return data;
                 } catch (error) {
                     // Failed
-                    console.error('Failed to parse .ghwe file:', error);
+                    return null;
                 }
             }
-            loadGhweFile();
+
+            let ghwe_data = await loadGhweFile();
+            console.log(ghwe_data);
+            console.log(ghwe_data.json_files);
+
 
 
             // Hash-routed Navigation
