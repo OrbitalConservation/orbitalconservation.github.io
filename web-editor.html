@@ -64,10 +64,7 @@
         <!-- JavaScript Section -->
         <script>
             // Constants
-            const requiredFiles = [
-                "ghwe_config.json", 
-                "ghwe_log.json"
-            ];
+            const requiredFiles = ["ghwe_config.json", "ghwe_log.json"];
 
             const config_ghwe = String(requiredFiles[0]);
             const log_ghwe = String(requiredFiles[1]);
@@ -103,7 +100,7 @@
             }
 
             const ghwe_data = loadGhweFile();
-            console.log(ghwe_data);
+            console.log(ghwe_data["json_files"]);
 
 
             // Hash-routed Navigation
