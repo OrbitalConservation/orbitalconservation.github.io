@@ -5,7 +5,17 @@
     hosted using GitHub Pages and have static JSON files within that repository that requires 
     regular updates.
 
-    A user loggs in using their
+    A user will login using their GitHub account, and then be able to edit the specified JSON 
+    files within the selected Repository of which the ghwe_config.json and ghwe_log.json files 
+    are located.
+    
+    The ghwe_config.json file is used to specify the site overall informations, as well as the
+    list of JSON files that the user will be able to edit.
+    
+    The ghwe_log.json file is used to keep a log of changes made to the JSON files specified in 
+    the ghwe_config.json file. This log is ONLY updated by a logged in user who successfully makes
+    changes to the JSON files. The log is also updated when a user makes changes to the 
+    'ghwe_config.json' file.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +29,9 @@
             /*
                 CSS Styling Here
             */
+            :root {
+                --wfa: -webkit-fill-available;
+            }
         </style>
     </head>
     <body>
