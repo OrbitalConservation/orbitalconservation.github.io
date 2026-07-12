@@ -54,6 +54,23 @@
             ];
             const config_ghwe = String(requiredFiles[0]);
             const log_ghwe = String(requiredFiles[1]);
+
+
+            // 
+            async function loadGhweFile() {
+                let _file_path = `./${config_ghwe}`;
+                try {
+                    let _response = await fetch(_file_path);
+
+                    if (!_response.ok) throw new Error('File could not be found');
+    
+                    const data = await _response.json();
+                    console.log(data);
+                } catch (error) {
+                    console.error('Failed to parse .ghwe file:', error);
+                }
+            }
+            loadGhweFile();
         </script>
     </body>
 </html>
