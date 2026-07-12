@@ -24,8 +24,15 @@
     <body>
         <!-- HTML Section - Header -->
         <header>
-            <div class="brand"></div>
-            <div class="navigation"></div>
+            <div class="brand">
+                <img src="" class="brand-logo" />
+                <p class="brand-name">GitHub WebEditor</p>
+            </div>
+            <div class="navigation">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#editor" class="nav-link">Editor</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
         </header>
 
         <!-- HTML Section - Main -->
@@ -36,7 +43,12 @@
 
         <!-- JavaScript Section -->
         <script>
-            // JS Code Here
+            // Constants
+            const requiredFiles = [
+                ".ghwe", ".ghwelog"
+            ];
+            const config_ghwe = String(requiredFiles[0]);
+            const log_ghwe = String(requiredFiles[1]);
         </script>
     </body>
 </html>
