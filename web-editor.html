@@ -19,10 +19,31 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
+    <script>
+        // White Label Configuration
+        const site_logo = "https://oakshift.co.uk/source/images/logos/logo-b.png"
+        const site_name = "WebEditor";
+        const site_description = "GitHub WebEditor is a web application that allows users to edit JSON files in their GitHub repositories.";
+        const site_share_landscape = "https://oakshiftsoftware.github.io/source/images/headers/img-5.png";
+    </script>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>GitHub WebEditor</title>
+        
+        <script>
+            const site_head = `
+                <meta property="og:title" content="${site_name}" />
+                <meta property="og:description" content="${site_description}" />
+                <meta property="og:image" content="${site_share_landscape}" />
+
+                <meta property="twitter:title" content="${site_name}" />
+                <meta property="twitter:description" content="${site_description}" />
+                <meta property="twitter:image" content="${site_share_landscape}" />
+
+                <title>${site_name}</title>
+            `;
+            document.write(site_head);
+        </script>
 
         <!-- CSS Styling Section -->
         <style>
@@ -31,15 +52,102 @@
             */
             :root {
                 --wfa: -webkit-fill-available;
+                --color-01: #18bc9c;
+                --color-02: #333333;
+                --color-03: #f4f4f4;
             }
+
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background-color: var(--color-03);
+                color: var(--color-02);
+            }
+
+            /* Header Styling */
+            header {
+                display: inline-flex;
+                width: var(--wfa);
+                justify-content: space-between;
+                padding: 2rem 4rem;
+            }
+
+            div.brand {
+                display: inline-flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            img.brand-logo {
+                width: 75px;
+                height: auto;
+                object-fit: contain;
+            }
+
+            p.brand-name {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            div.navigation {
+                display: inline-flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            a.nav-link {
+                text-decoration: none;
+                color: var(--color-02);
+                font-weight: bold;
+                font-size: 1rem;
+            }
+
+            a.nav-link:hover {
+                color: var(--color-01);
+            }
+
+            /* Main Content Styling */
+            main {
+                padding: 2rem 4rem;
+            }
+
+            page-tag {
+                display: block;
+                margin-bottom: 2rem;
+            }
+
+            page-tag.hidden {
+                display: none;
+            }
+
+            page-tag h2 {
+                font-size: 2rem;
+                margin-top: 0;
+                margin-bottom: 1rem;
+            }
+
+            /* Footer Styling */
+            footer {
+                padding: 2rem 4rem;
+                background-color: var(--color-02);
+                color: var(--color-03);
+                text-align: center;
+            }
+
+            footer small {
+                font-style: italic;
+            }
+
         </style>
     </head>
     <body>
         <!-- HTML Section (Header) -->
         <header>
             <div class="brand">
-                <img src="" class="brand-logo" />
-                <p class="brand-name">GitHub WebEditor</p>
+                <script>
+                    document.write(`<img src="${site_logo}" class="brand-logo" /> <p class="brand-name">${site_name}</p>`);
+                </script>
             </div>
             <div class="navigation">
                 <a href="#home" class="nav-link">Home</a>
@@ -56,12 +164,12 @@
             </page-tag>
 
             <!-- Editor Page -->
-            <page-tag class="editor" id="editor">
+            <page-tag class="editor hidden" id="editor">
                 <h2>Editor</h2>
             </page-tag>
 
             <!-- About Page -->
-            <page-tag class="about" id="about">
+            <page-tag class="about hidden" id="about">
                 <h2>About</h2>
             </page-tag>
         </main>
