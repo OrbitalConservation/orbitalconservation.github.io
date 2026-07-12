@@ -1,0 +1,4 @@
+SiteURL='https://orbitalconservation.github.io/'
+SiteName='Orbital Conservation Institute'
+DataItem=['Articles', 'data/articles.json']
+DataItem=['Endorsed Learning', 'data/endorsed-learning.json']
