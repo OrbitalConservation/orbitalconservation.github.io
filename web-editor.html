@@ -72,16 +72,32 @@
             const config_ghwe = String(requiredFiles[0]);
             const log_ghwe = String(requiredFiles[1]);
 
+            async function checkUrlExists(url) {
+                try {
+                    let _response = await fetch(url, { method: 'HEAD' });
+                    return _response.ok;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            if (checkUrlExists(config_ghwe) && checkUrlExists(log_ghwe)) {
+                console.log(`File ${config_ghwe} exists.`);
+                console.log(`File ${log_ghwe} exists.`);
+            } else {
+                console.error(`File ${config_ghwe} or ${log_ghwe} does not exist.`);
+            }
+
             async function loadGhweFile() {
                 let _file_path = `./${config_ghwe}`;
                 try {
                     let _response = await fetch(_file_path);
-
                     if (!_response.ok) throw new Error('File could not be found');
-    
                     const data = await _response.json();
+                    // Success
                     console.log(data);
                 } catch (error) {
+                    // Failed
                     console.error('Failed to parse .ghwe file:', error);
                 }
             }
