@@ -8,6 +8,6 @@
     }, 
     "json_files": {
         "articles": "data/articles.json",
-        "endorsed_learning": "data/endorsed-learning.json"
+        "endorsed-learning": "data/endorsed-learning.json"
     }
 }
