@@ -102,9 +102,11 @@
                 }
             }
 
-            const ghwe_data = loadGhweFile().json();
+            const ghwe_data = loadGhweFile();
+            let data_set = ghwe_data.json();
+
             console.log(ghwe_data);
-            console.log(ghwe_data.json_files);
+            console.log(data_set);
 
 
 
