@@ -2,7 +2,32 @@
   "metadata": {
     "lastUpdated": "2025-07-20T21:40:00Z",
     "version": "1.1.0",
-    "totalPosts": 5
+    "totalPosts": 5,
+    "fields": {
+      "post": {
+        "id": "string",
+        "title": "string",
+        "slug": "string",
+        "author": "string",
+        "authorRole": "string",
+        "publishDate": "string",
+        "lastModified": "string",
+        "featured": "boolean",
+        "category": "string",
+        "tags": "array[string]",
+        "excerpt": "string",
+        "readTime": "number",
+        "content": "string",
+        "citations": "array[object]"
+      },
+      "citation": {
+        "authors": "array[string]",
+        "title": "string",
+        "publication": "string",
+        "year": "string",
+        "url": "string"
+      }
+    }
   },
   "posts": [
     {
